@@ -19,7 +19,7 @@ export function CompareJobs() {
           <h2 className="text-xl font-semibold mb-2">Select jobs to compare</h2>
           <button
             onClick={() => navigate('/saved')}
-            className="text-blue-600 font-medium"
+            className="text-primary font-medium"
           >
             Back to Saved Jobs
           </button>
@@ -51,8 +51,8 @@ export function CompareJobs() {
           <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${jobs.length}, 1fr)` }}>
             {jobs.map(job => (
               <div key={job.id} className="bg-gray-50 rounded-xl p-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
-                  <span className="text-xl font-bold text-blue-600">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-3">
+                  <span className="text-xl font-bold text-primary">
                     {job.company.charAt(0)}
                   </span>
                 </div>
@@ -129,7 +129,7 @@ export function CompareJobs() {
               <div key={job.id} className="bg-gray-50 rounded-xl p-4">
                 <div className="flex flex-wrap gap-1">
                   {job.skills.slice(0, 5).map(skill => (
-                    <span key={skill} className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">
+                    <span key={skill} className="px-2 py-1 bg-primary/10 text-primary rounded text-xs font-medium">
                       {skill}
                     </span>
                   ))}
@@ -185,7 +185,7 @@ export function CompareJobs() {
                   className={`w-full py-2.5 rounded-lg font-medium text-sm ${
                     applied
                       ? 'bg-green-500 text-white'
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                      : 'bg-primary text-primary-foreground hover:opacity-90'
                   }`}
                 >
                   {applied ? 'Applied' : 'Apply Now'}
