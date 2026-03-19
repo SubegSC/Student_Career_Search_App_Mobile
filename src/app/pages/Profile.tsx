@@ -42,7 +42,7 @@ export function Profile() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 overflow-x-auto">
+        <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {tabs.map(tab => {
             const Icon = tab.icon;
             return (
