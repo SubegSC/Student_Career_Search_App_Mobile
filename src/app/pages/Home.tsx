@@ -82,7 +82,7 @@ export function Home() {
                   }}
                   className={`px-4 py-2 rounded-lg font-medium text-sm ${
                     applied 
-                      ? 'bg-green-500 text-white'
+                      ? 'bg-secondary text-secondary-foreground'
                       : 'bg-primary text-primary-foreground hover:opacity-90'
                   } transition-colors`}
                 >
@@ -136,7 +136,7 @@ export function Home() {
                   }}
                   className={`px-4 py-2 rounded-lg font-medium text-sm ${
                     applied
-                      ? 'bg-green-500 text-white'
+                      ? 'bg-secondary text-secondary-foreground'
                       : saved
                       ? 'bg-primary text-primary-foreground hover:opacity-90'
                       : 'bg-white border-2 border-primary text-primary hover:bg-primary/10'

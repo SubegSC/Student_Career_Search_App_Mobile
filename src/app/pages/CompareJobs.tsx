@@ -184,7 +184,7 @@ export function CompareJobs() {
                   onClick={() => navigate(`/job/${job.id}`)}
                   className={`w-full py-2.5 rounded-lg font-medium text-sm ${
                     applied
-                      ? 'bg-green-500 text-white'
+                      ? 'bg-secondary text-secondary-foreground'
                       : 'bg-primary text-primary-foreground hover:opacity-90'
                   }`}
                 >

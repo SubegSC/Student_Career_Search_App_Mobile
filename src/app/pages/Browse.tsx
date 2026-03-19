@@ -225,7 +225,7 @@ export function Browse() {
                     saved
                       ? 'bg-primary text-primary-foreground'
                       : applied
-                      ? 'bg-green-500 text-white'
+                      ? 'bg-secondary text-secondary-foreground'
                       : 'bg-white border-2 bg-primary text-primary'
                   }`}
                 >
