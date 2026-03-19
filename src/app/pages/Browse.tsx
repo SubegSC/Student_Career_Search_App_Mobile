@@ -72,13 +72,13 @@ export function Browse() {
     (filters.deadline !== 'all' ? 1 : 0);
 
   return (
-    <div className="flex-1 overflow-y-auto px-6 pb-6">
+    <div className="flex-1 overflow-y-auto px-6 pb-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold">Browse Jobs</h1>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Browse Jobs</h1>
         <button
           onClick={() => navigate('/profile')}
-          className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors"
+          className="w-10 h-10 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors"
         >
           <User className="w-6 h-6 text-primary" />
         </button>
@@ -93,16 +93,16 @@ export function Browse() {
             placeholder="Search jobs, companies, skills..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="relative w-12 h-12 rounded-lg border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50"
+          className="relative w-12 h-12 rounded-lg border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 flex items-center justify-center hover:bg-gray-50"
         >
-          <SlidersHorizontal className="w-5 h-5 text-gray-600" />
+          <SlidersHorizontal className="w-5 h-5  dark:text-gray-300" />
           {activeFilterCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground dark:opacity-90 text-xs rounded-full w-5 h-5 flex items-center justify-center">
               {activeFilterCount}
             </span>
           )}
@@ -111,10 +111,10 @@ export function Browse() {
 
       {/* Filter Panel */}
       {showFilters && (
-        <div className="mb-6 p-4 bg-gray-50 rounded-xl space-y-4">
+        <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold">Filters</h3>
-            <button onClick={clearFilters} className="text-sm text-primary font-medium">
+            <button onClick={clearFilters} className="text-sm text-primary dark:text-primary/90 font-medium">
               Clear All
             </button>
           </div>
@@ -129,8 +129,8 @@ export function Browse() {
                   onClick={() => setFilters(prev => ({ ...prev, locationType: type }))}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
                     filters.locationType === type
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-white border border-gray-300 text-gray-700'
+                      ? 'bg-primary text-primary-foreground dark:opacity-90'
+                      : 'bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200'
                   }`}
                 >
                   {type === 'all' ? 'All' : type}
@@ -154,8 +154,8 @@ export function Browse() {
                   onClick={() => setFilters(prev => ({ ...prev, deadline: option.value }))}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
                     filters.deadline === option.value
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-white border border-gray-300 text-gray-700'
+                      ? 'bg-primary text-primary-foreground dark:opacity-90'
+                      : 'bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200'
                   }`}
                 >
                   {option.label}
@@ -176,8 +176,8 @@ export function Browse() {
                   onClick={() => toggleSkillFilter(skill)}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
                     filters.skills.includes(skill)
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white border border-gray-300 text-gray-700'
+                      ? 'bg-blue-600 dark:bg-blue-500 text-white'
+                      : 'bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200'
                   }`}
                 >
                   {skill}
@@ -189,7 +189,7 @@ export function Browse() {
       )}
 
       {/* Results count */}
-      <p className="text-sm text-gray-600 mb-4">
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
         {filteredJobs.length} jobs found
       </p>
 
@@ -206,13 +206,13 @@ export function Browse() {
             <div
               key={job.id}
               onClick={() => navigate(`/job/${job.id}`)}
-              className="bg-gray-50 rounded-2xl p-4 cursor-pointer hover:bg-gray-100 transition-colors"
+              className="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-2xl p-4 cursor-pointer transition-colors"
             >
               <div className="flex items-start justify-between mb-2">
                 <div className="flex-1">
                   <h3 className="font-semibold mb-1">{job.title}</h3>
-                  <p className="text-sm text-gray-600 mb-1">{job.company}</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">{job.company}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     {job.location} • {job.locationType}
                   </p>
                 </div>
@@ -223,10 +223,10 @@ export function Browse() {
                   }}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
                     saved
-                      ? 'bg-primary text-primary-foreground'
+                      ? 'bg-primary text-primary-foreground dark:opacity-90'
                       : applied
                       ? 'bg-secondary text-secondary-foreground'
-                      : 'bg-white border-2 bg-primary text-primary'
+                      : 'bg-white dark:bg-gray-900 border-2 border-primary text-primary'
                   }`}
                 >
                   {applied ? 'Applied' : saved ? 'Saved' : 'Save'}
@@ -234,17 +234,17 @@ export function Browse() {
               </div>
               <div className="flex items-center gap-2 flex-wrap mb-2">
                 {job.skills.slice(0, 3).map(skill => (
-                  <span key={skill} className="px-2 py-1 bg-white rounded text-xs font-medium text-gray-700">
+                  <span key={skill} className="px-2 py-1 dark:bg-gray-600 bg-white rounded text-xs font-medium text-gray-700 dark:text-gray-200">
                     {skill}
                   </span>
                 ))}
                 {job.skills.length > 3 && (
-                  <span className="px-2 py-1 bg-white rounded text-xs font-medium text-gray-700">
+                  <span className="px-2 py-1 bg-white dark:bg-gray-600 rounded text-xs font-medium text-gray-700 dark:text-gray-200">
                     +{job.skills.length - 3} more
                   </span>
                 )}
               </div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-300">
                 <span className={daysUntilDeadline <= 7 ? 'text-red-600 font-medium' : ''}>
                   Deadline: {deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                   {daysUntilDeadline <= 7 && ` (${daysUntilDeadline} days left)`}
