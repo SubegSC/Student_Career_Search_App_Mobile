@@ -63,7 +63,7 @@ export function Profile() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-6 py-6">
+      <div className="px-6 py-6">
         {activeTab === 'overview'  && <OverviewTab  />}
         {activeTab === 'resume'    && <ResumeTab    />}
         {activeTab === 'portfolio' && <PortfolioTab />}
