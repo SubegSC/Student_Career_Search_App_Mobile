@@ -25,9 +25,9 @@ export function MyApplications() {
         <h1 className="text-2xl font-semibold">Applications</h1>
         <button
           onClick={() => navigate('/profile')}
-          className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center hover:bg-blue-200 transition-colors"
+          className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors"
         >
-          <User className="w-6 h-6 text-blue-600" />
+          <User className="w-6 h-6 text-primary" />
         </button>
       </div>
 
@@ -64,7 +64,7 @@ export function MyApplications() {
           <p className="text-gray-500 mb-4">No applications yet</p>
           <button
             onClick={() => navigate('/browse')}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium"
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium"
           >
             Browse Jobs
           </button>
@@ -161,7 +161,7 @@ export function MyApplications() {
                             Applied {daysAgo === 0 ? 'today' : `${daysAgo} days ago`}
                           </p>
                         </div>
-                        <span className="px-3 py-1 bg-blue-500 text-white rounded-lg font-medium text-sm">
+                        <span className="px-3 py-1 bg-primary text-primary-foreground rounded-lg font-medium text-sm">
                           Pending
                         </span>
                       </div>
