@@ -19,9 +19,9 @@ export function Home() {
         <div className="relative">
           <button
             onClick={() => navigate('/profile')}
-            className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center hover:bg-blue-200 transition-colors"
+            className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors"
           >
-            <User className="w-6 h-6 text-blue-600" />
+            <User className="w-6 h-6 text-primary" />
           </button>
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
             1
@@ -83,7 +83,7 @@ export function Home() {
                   className={`px-4 py-2 rounded-lg font-medium text-sm ${
                     applied 
                       ? 'bg-green-500 text-white'
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                      : 'bg-primary text-primary-foreground hover:opacity-90'
                   } transition-colors`}
                 >
                   {applied ? 'Applied' : 'Apply'}
@@ -100,7 +100,7 @@ export function Home() {
           <h2 className="text-xl font-semibold">Recommended Jobs</h2>
           <button 
             onClick={() => navigate('/browse')}
-            className="flex items-center gap-1 text-blue-600 text-sm font-medium"
+            className="flex items-center gap-1 text-primary text-sm font-medium"
           >
             View More
             <ChevronRight className="w-4 h-4" />
@@ -138,8 +138,8 @@ export function Home() {
                     applied
                       ? 'bg-green-500 text-white'
                       : saved
-                      ? 'bg-blue-600 text-white hover:bg-blue-700'
-                      : 'bg-white border-2 border-blue-600 text-blue-600 hover:bg-blue-50'
+                      ? 'bg-primary text-primary-foreground hover:opacity-90'
+                      : 'bg-white border-2 border-primary text-primary hover:bg-primary/10'
                   } transition-colors`}
                 >
                   {applied ? 'Applied' : saved ? 'Apply' : 'Save'}

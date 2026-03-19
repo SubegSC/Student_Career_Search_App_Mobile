@@ -78,9 +78,9 @@ export function Browse() {
         <h1 className="text-2xl font-semibold">Browse Jobs</h1>
         <button
           onClick={() => navigate('/profile')}
-          className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center hover:bg-blue-200 transition-colors"
+          className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors"
         >
-          <User className="w-6 h-6 text-blue-600" />
+          <User className="w-6 h-6 text-primary" />
         </button>
       </div>
 
@@ -93,7 +93,7 @@ export function Browse() {
             placeholder="Search jobs, companies, skills..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
         <button
@@ -102,7 +102,7 @@ export function Browse() {
         >
           <SlidersHorizontal className="w-5 h-5 text-gray-600" />
           {activeFilterCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
               {activeFilterCount}
             </span>
           )}
@@ -114,7 +114,7 @@ export function Browse() {
         <div className="mb-6 p-4 bg-gray-50 rounded-xl space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold">Filters</h3>
-            <button onClick={clearFilters} className="text-sm text-blue-600 font-medium">
+            <button onClick={clearFilters} className="text-sm text-primary font-medium">
               Clear All
             </button>
           </div>
@@ -129,7 +129,7 @@ export function Browse() {
                   onClick={() => setFilters(prev => ({ ...prev, locationType: type }))}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
                     filters.locationType === type
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-primary text-primary-foreground'
                       : 'bg-white border border-gray-300 text-gray-700'
                   }`}
                 >
@@ -154,7 +154,7 @@ export function Browse() {
                   onClick={() => setFilters(prev => ({ ...prev, deadline: option.value }))}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
                     filters.deadline === option.value
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-primary text-primary-foreground'
                       : 'bg-white border border-gray-300 text-gray-700'
                   }`}
                 >
@@ -223,10 +223,10 @@ export function Browse() {
                   }}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
                     saved
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-primary text-primary-foreground'
                       : applied
                       ? 'bg-green-500 text-white'
-                      : 'bg-white border-2 border-blue-600 text-blue-600'
+                      : 'bg-white border-2 bg-primary text-primary'
                   }`}
                 >
                   {applied ? 'Applied' : saved ? 'Saved' : 'Save'}
