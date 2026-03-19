@@ -20,6 +20,10 @@ export const router = createBrowserRouter([
       { path: 'saved', Component: SavedJobs },
       { path: 'applications', Component: MyApplications },
       { path: 'alerts', Component: Alerts },
+      { path: 'job/:jobId', Component: JobDetail },
+      { path: 'compare', Component: CompareJobs },
+      { path: 'profile', Component: Profile },
+      { path: 'profile/edit', Component: EditProfile },
     ],
   },
   {
