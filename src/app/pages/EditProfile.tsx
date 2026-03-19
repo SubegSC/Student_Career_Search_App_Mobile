@@ -46,7 +46,7 @@ export function EditProfile() {
           <h1 className="text-lg font-semibold dark:text-white">Edit Profile</h1>
           <button
             onClick={handleSubmit}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90"
           >
             <Save className="w-4 h-4" />
             Save
@@ -69,7 +69,7 @@ export function EditProfile() {
                   value={formData.fullName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div>
@@ -80,7 +80,7 @@ export function EditProfile() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div>
@@ -90,7 +90,7 @@ export function EditProfile() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div>
@@ -101,7 +101,7 @@ export function EditProfile() {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="e.g., Toronto, ON"
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div>
@@ -112,7 +112,7 @@ export function EditProfile() {
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="e.g., Computer Science Student"
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div>
@@ -123,7 +123,7 @@ export function EditProfile() {
                   onChange={handleChange}
                   rows={4}
                   placeholder="Tell us about yourself..."
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>
@@ -141,7 +141,7 @@ export function EditProfile() {
                   value={formData.github}
                   onChange={handleChange}
                   placeholder="github.com/username"
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div>
@@ -152,7 +152,7 @@ export function EditProfile() {
                   value={formData.linkedin}
                   onChange={handleChange}
                   placeholder="linkedin.com/in/username"
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div>
@@ -163,7 +163,7 @@ export function EditProfile() {
                   value={formData.portfolio}
                   onChange={handleChange}
                   placeholder="yourportfolio.com"
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>
@@ -172,7 +172,7 @@ export function EditProfile() {
           {/* Save Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700"
+            className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90"
           >
             Save Changes
           </button>

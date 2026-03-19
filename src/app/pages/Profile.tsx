@@ -48,10 +48,10 @@ export function Profile() {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as 'overview' | 'resume' | 'portfolio' | 'documents')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap ${
                   activeTab === tab.id
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-primary text-primary-foreground'
                     : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
               >
@@ -82,8 +82,8 @@ function OverviewTab() {
     <div className="space-y-6 pb-20">
       {/* Profile Header */}
       <div className="text-center">
-        <div className="w-24 h-24 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+        <div className="w-24 h-24 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span className="text-3xl font-bold text-primary dark:text-primary">
             {profile.fullName.charAt(0)}
           </span>
         </div>
@@ -91,7 +91,7 @@ function OverviewTab() {
         <p className="text-gray-600 dark:text-gray-400 mb-2">{profile.title || 'Add your title'}</p>
         <button
           onClick={() => navigate('/profile/edit')}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90"
         >
           <Edit2 className="w-4 h-4" />
           Edit Profile
@@ -99,14 +99,14 @@ function OverviewTab() {
       </div>
 
       {/* Profile Completion */}
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-4">
+      <div className="bg-gradient-to-r from-primary to-purple-50 dark:from-primary dark:to-purple-900/20 rounded-xl p-4">
         <div className="flex items-center justify-between mb-2">
           <h3 className="font-semibold dark:text-white">Profile Completion</h3>
-          <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">{completion}%</span>
+          <span className="text-2xl font-bold text-primary dark:text-primary">{completion}%</span>
         </div>
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-3">
           <div
-            className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full transition-all"
+            className="bg-gradient-to-r bg-primary/10 to-purple-600 h-2 rounded-full transition-all"
             style={{ width: `${completion}%` }}
           />
         </div>
@@ -151,19 +151,19 @@ function OverviewTab() {
         <h3 className="font-semibold mb-3 dark:text-white">Professional Links</h3>
         <div className="space-y-3">
           {profile.github && (
-            <a href={`https://${profile.github}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-blue-600 dark:text-blue-400 hover:underline">
+            <a href={`https://${profile.github}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-primary hover:underline">
               <Github className="w-5 h-5" />
               <span>{profile.github}</span>
             </a>
           )}
           {profile.linkedin && (
-            <a href={`https://${profile.linkedin}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-blue-600 dark:text-blue-400 hover:underline">
+            <a href={`https://${profile.linkedin}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-primary hover:underline">
               <Linkedin className="w-5 h-5" />
               <span>{profile.linkedin}</span>
             </a>
           )}
           {profile.portfolio && (
-            <a href={`https://${profile.portfolio}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-blue-600 dark:text-blue-400 hover:underline">
+            <a href={`https://${profile.portfolio}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-primary hover:underline">
               <Globe className="w-5 h-5" />
               <span>{profile.portfolio}</span>
             </a>
@@ -177,7 +177,7 @@ function OverviewTab() {
           <h3 className="font-semibold dark:text-white">Education</h3>
           <button
             onClick={() => navigate('/profile/edit-education')}
-            className="text-blue-600 dark:text-blue-400 text-sm font-medium"
+            className="text-primary text-sm font-medium"
           >
             Manage
           </button>
@@ -209,7 +209,7 @@ function OverviewTab() {
           <h3 className="font-semibold dark:text-white">Experience</h3>
           <button
             onClick={() => navigate('/profile/edit-experience')}
-            className="text-blue-600 dark:text-blue-400 text-sm font-medium"
+            className="text-primary text-sm font-medium"
           >
             Manage
           </button>
@@ -242,7 +242,7 @@ function OverviewTab() {
           <h3 className="font-semibold dark:text-white">Skills</h3>
           <button
             onClick={() => navigate('/profile/edit-skills')}
-            className="text-blue-600 dark:text-blue-400 text-sm font-medium"
+            className="text-primary text-sm font-medium"
           >
             Edit
           </button>
@@ -250,7 +250,7 @@ function OverviewTab() {
         {profile.skills.length > 0 ? (
           <div className="flex flex-wrap gap-2">
             {profile.skills.map(skill => (
-              <span key={skill} className="px-3 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-lg text-sm font-medium">
+              <span key={skill} className="px-3 py-1.5 bg-primary/10 dark:bg-primary/20 text-primary rounded-lg text-sm font-medium">
                 {skill}
               </span>
             ))}
@@ -273,7 +273,7 @@ function ResumeTab() {
         <h2 className="text-xl font-semibold dark:text-white">My Resumes</h2>
         <button
           onClick={() => navigate('/profile/create-resume')}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90"
         >
           <Plus className="w-4 h-4" />
           New Resume
@@ -288,7 +288,7 @@ function ResumeTab() {
               className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 flex items-center justify-between"
             >
               <div className="flex items-center gap-3">
-                <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                <FileText className="w-8 h-8 text-primary" />
                 <div>
                   <h3 className="font-medium dark:text-white">{resume.name}</h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -313,7 +313,7 @@ function ResumeTab() {
           <p className="text-gray-500 dark:text-gray-400 mb-4">No resumes yet</p>
           <button
             onClick={() => navigate('/profile/create-resume')}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium"
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium"
           >
             Create Your First Resume
           </button>
@@ -333,7 +333,7 @@ function PortfolioTab() {
         <h2 className="text-xl font-semibold dark:text-white">Portfolio Projects</h2>
         <button
           onClick={() => navigate('/profile/add-project')}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90"
         >
           <Plus className="w-4 h-4" />
           Add Project
@@ -348,19 +348,19 @@ function PortfolioTab() {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{project.description}</p>
               <div className="flex flex-wrap gap-2 mb-3">
                 {project.technologies.map(tech => (
-                  <span key={tech} className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded text-xs font-medium">
+                  <span key={tech} className="px-2 py-1 bg-primary/10 dark:bg-primary/20 text-primary rounded text-xs font-medium">
                     {tech}
                   </span>
                 ))}
               </div>
               <div className="flex gap-3">
                 {project.githubUrl && (
-                  <a href={`https://${project.githubUrl}`} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+                  <a href={`https://${project.githubUrl}`} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">
                     GitHub
                   </a>
                 )}
                 {project.liveUrl && (
-                  <a href={`https://${project.liveUrl}`} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+                  <a href={`https://${project.liveUrl}`} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">
                     Live Demo
                   </a>
                 )}
@@ -374,7 +374,7 @@ function PortfolioTab() {
           <p className="text-gray-500 dark:text-gray-400 mb-4">No projects yet</p>
           <button
             onClick={() => navigate('/profile/add-project')}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium"
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium"
           >
             Add Your First Project
           </button>
@@ -396,7 +396,7 @@ function DocumentsTab() {
           <h2 className="text-lg font-semibold dark:text-white">Cover Letters</h2>
           <button
             onClick={() => navigate('/profile/create-cover-letter')}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90"
           >
             <Plus className="w-4 h-4" />
             New
@@ -433,7 +433,7 @@ function DocumentsTab() {
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold dark:text-white">Certifications</h2>
-          <button className="text-blue-600 dark:text-blue-400 text-sm font-medium">
+          <button className="text-primary text-sm font-medium">
             Add
           </button>
         </div>
@@ -441,7 +441,7 @@ function DocumentsTab() {
           <div className="space-y-2">
             {profile.certifications.map((cert, index) => (
               <div key={index} className="flex items-center gap-3 bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
-                <Award className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <Award className="w-5 h-5 text-primary" />
                 <span className="text-sm dark:text-white">{cert}</span>
               </div>
             ))}
