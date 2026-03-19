@@ -251,25 +251,69 @@ function OverviewTab() {
             Manage
           </button>
         </div>
-        {profile.experience.length > 0 ? (
+
+        {(profile.experience?.length ?? 0) > 0 ? (
           <div className="space-y-3">
             {profile.experience.map(exp => (
-              <div key={exp.id}>
+              <div key={exp.id} className="flex items-start justify-between gap-3">
+
+                {/* LEFT */}
                 <div className="flex items-start gap-3">
                   <Briefcase className="w-5 h-5 text-gray-400 mt-1" />
                   <div>
-                    <h4 className="font-medium dark:text-white">{exp.position}</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{exp.company}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-500">
-                      {exp.startDate} - {exp.current ? 'Present' : exp.endDate}
+                    <h4 className="font-medium dark:text-white">
+                      {exp.position}
+                    </h4>
+
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {exp.company}
                     </p>
+
+                    <p className="text-xs text-gray-500 dark:text-gray-500">
+                      {exp.startDate} - {exp.current ? "Present" : exp.endDate}
+                    </p>
+
+                    {exp.location && (
+                      <p className="text-xs text-gray-500">
+                        {exp.location}
+                      </p>
+                    )}
+
+                    {exp.description && (
+                      <p className="text-xs text-gray-500">
+                        {exp.description}
+                      </p>
+                    )}
                   </div>
                 </div>
+
+                {/* RIGHT */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => navigate(`/profile/edit-experience/${exp.id}`)}
+                    className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
+                  >
+                    <Edit2 className="w-4 h-4 text-gray-600" />
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      const updated = profile.experience.filter(e => e.id !== exp.id);
+                      updateProfile({ experience: updated });
+                    }}
+                    className="p-2 hover:bg-red-100 rounded-lg"
+                  >
+                    <Trash2 className="w-4 h-4 text-red-500" />
+                  </button>
+                </div>
+
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-sm text-gray-500 dark:text-gray-400">No experience added yet</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            No experience added yet
+          </p>
         )}
       </div>
 

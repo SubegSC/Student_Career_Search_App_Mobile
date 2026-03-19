@@ -26,8 +26,8 @@ export const router = createBrowserRouter([
 
       { path: 'profile', Component: Profile },
       { path: 'profile/edit', Component: EditProfile },
-      { path: '/profile/edit-education/:id', Component: EditProfile,},
-
+      { path: '/profile/edit-education/:id', Component: EditProfile, },
+      { path: '/profile/edit-experience/:id', Component: EditProfile, },
       { path: 'profile/edit-education', Component: EditProfile },
       { path: 'profile/edit-experience', Component: EditProfile },
       { path: 'profile/edit-skills', Component: EditProfile },
@@ -56,4 +56,8 @@ export const router = createBrowserRouter([
     path: '/profile/edit-education/:id',
     Component: EditProfile,
   },
+  {
+    path: '/profile/edit-experience/:id',
+    Component: EditProfile,
+  }
 ]);

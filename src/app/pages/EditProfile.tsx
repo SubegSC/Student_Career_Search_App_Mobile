@@ -14,6 +14,7 @@ export function EditProfile() {
   const isCoverLetter = location.pathname.includes('create-cover-letter');
   const { id } = useParams();
   const isEditEducation = location.pathname.includes("edit-education");
+  const isEditExperience = location.pathname.includes("edit-experience");
   const { profile, updateProfile } = useProfile();
   if (!profile) {
     return (
@@ -44,6 +45,16 @@ export function EditProfile() {
     gpa: '',
   });
 
+  const [experience, setExperience] = useState({
+    position: '',
+    company: '',
+    startDate: '',
+    endDate: '',
+    current: false,
+    location: '',
+    description: '',
+  });
+
   useEffect(() => {
     if (isEditEducation && id && profile) {
       const existing = profile.education.find(e => e.id === id);
@@ -60,6 +71,24 @@ export function EditProfile() {
       }
     }
   }, [id, isEditEducation, profile]);
+
+  useEffect(() => {
+    if (isEditExperience && id && profile) {
+      const existing = profile.experience.find(e => e.id === id);
+
+      if (existing) {
+        setExperience({
+          position: existing.position || "",
+          company: existing.company || "",
+          startDate: existing.startDate || "",
+          endDate: existing.endDate || "",
+          current: existing.current || false,
+          location: existing.location || "",
+          description: existing.description || "",
+        });
+      }
+    }
+  }, [id, isEditExperience, profile]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -191,8 +220,108 @@ export function EditProfile() {
           )}
 
           {isExperience && (
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-              <p className="text-gray-500">Experience form coming soon...</p>
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 space-y-4">
+              <h2 className="text-lg font-semibold dark:text-white">
+                {isEditExperience ? "Edit Experience" : "Add Experience"}
+              </h2>
+
+              <input
+                type="text"
+                placeholder="Job Title"
+                value={experience.position}
+                onChange={(e) =>
+                  setExperience({ ...experience, position: e.target.value })
+                }
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+              />
+
+              <input
+                type="text"
+                placeholder="Company"
+                value={experience.company}
+                onChange={(e) =>
+                  setExperience({ ...experience, company: e.target.value })
+                }
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+              />
+
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  placeholder="Start Date"
+                  value={experience.startDate}
+                  onChange={(e) =>
+                    setExperience({ ...experience, startDate: e.target.value })
+                  }
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                />
+
+                <input
+                  type="text"
+                  placeholder="End Date"
+                  value={experience.endDate}
+                  onChange={(e) =>
+                    setExperience({ ...experience, endDate: e.target.value })
+                  }
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              <label className="flex items-center gap-2 text-sm dark:text-white">
+                <input
+                  type="checkbox"
+                  checked={experience.current}
+                  onChange={(e) =>
+                    setExperience({ ...experience, current: e.target.checked })
+                  }
+                />
+                I currently work here
+              </label>
+
+              <input
+                type="text"
+                placeholder="Location"
+                value={experience.location}
+                onChange={(e) =>
+                  setExperience({ ...experience, location: e.target.value })
+                }
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+              />
+
+              <textarea
+                placeholder="Description"
+                value={experience.description}
+                onChange={(e) =>
+                  setExperience({ ...experience, description: e.target.value })
+                }
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+              />
+
+              <button
+                onClick={() => {
+                  if (isEditExperience) {
+                    const updated = profile.experience.map((e) =>
+                      e.id === id ? { ...experience, id } : e
+                    );
+
+                    updateProfile({ experience: updated });
+                  } else {
+                    const newExp = {
+                      ...experience,
+                      id: Date.now().toString(),
+                    };
+
+                    updateProfile({
+                      experience: [...profile.experience, newExp],
+                    });
+                  }
+
+                  navigate("/profile");
+                }}
+                className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-semibold"
+              >
+                Save Experience
+              </button>
             </div>
           )}
 
