@@ -38,9 +38,9 @@ export function SavedJobs() {
         <h1 className="text-2xl font-semibold">Saved Jobs</h1>
         <button
           onClick={() => navigate('/profile')}
-          className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center hover:bg-blue-200 transition-colors"
+          className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors"
         >
-          <User className="w-6 h-6 text-blue-600" />
+          <User className="w-6 h-6 text-primary" />
         </button>
       </div>
 
@@ -53,8 +53,8 @@ export function SavedJobs() {
           }}
           className={`px-4 py-2 rounded-lg font-medium text-sm ${
             compareMode 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-white border-2 border-blue-600 text-blue-600'
+              ? 'bg-primary text-primary-foreground' 
+              : 'bg-white border-2 border-primary text-primary'
           }`}
         >
           {compareMode ? 'Exit Compare' : 'Compare Jobs'}
@@ -62,7 +62,7 @@ export function SavedJobs() {
         {compareMode && selectedForCompare.size >= 2 && (
           <button
             onClick={() => navigate('/compare', { state: { jobIds: Array.from(selectedForCompare) } })}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg font-medium text-sm"
+            className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg font-medium text-sm"
           >
             Compare ({selectedForCompare.size})
           </button>
@@ -70,8 +70,8 @@ export function SavedJobs() {
       </div>
 
       {compareMode && (
-        <div className="mb-4 p-3 bg-blue-50 rounded-lg">
-          <p className="text-sm text-blue-800">
+        <div className="mb-4 p-3 bg-primary/10 rounded-lg">
+          <p className="text-sm text-primary">
             Select 2-3 jobs to compare. Tap jobs to select them.
           </p>
         </div>
@@ -88,7 +88,7 @@ export function SavedJobs() {
           <p className="text-gray-500 mb-4">No saved jobs yet</p>
           <button
             onClick={() => navigate('/browse')}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium"
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium"
           >
             Browse Jobs
           </button>
@@ -114,7 +114,7 @@ export function SavedJobs() {
                 }}
                 className={`rounded-2xl p-4 cursor-pointer transition-all ${
                   isSelected
-                    ? 'bg-blue-100 border-2 border-blue-600'
+                    ? 'bg-primary/10 border-2 border-primary'
                     : 'bg-gray-50 hover:bg-gray-100'
                 }`}
               >
@@ -140,7 +140,7 @@ export function SavedJobs() {
                     </div>
                   )}
                   {compareMode && isSelected && (
-                    <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+                    <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
                       <span className="text-white text-xs">✓</span>
                     </div>
                   )}
@@ -159,7 +159,7 @@ export function SavedJobs() {
                     </span>
                   </p>
                   {applied && (
-                    <span className="px-2 py-1 bg-green-500 text-white text-xs rounded-lg font-medium">
+                    <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-lg font-medium">
                       Applied
                     </span>
                   )}
