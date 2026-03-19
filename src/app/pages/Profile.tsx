@@ -108,7 +108,7 @@ function OverviewTab() {
       {/* Profile Completion */}
       <div className="bg-gradient-to-r from-primary to-purple-50 dark:from-primary dark:to-purple-900/20 rounded-xl p-4">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="font-semibold dark:text-white">Profile Completion</h3>
+          <h3 className="font-semibold text-white dark:text-gray-700">Profile Completion</h3>
           <span className="text-2xl font-bold text-primary dark:text-primary">{completion}%</span>
         </div>
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-3">
@@ -117,7 +117,7 @@ function OverviewTab() {
             style={{ width: `${completion}%` }}
           />
         </div>
-        <p className="text-sm text-gray-600 dark:text-gray-400">
+        <p className="text-sm text-white dark:text-gray-700">
           {completion === 100 ? '🎉 Your profile is complete!' : 'Complete your profile to increase visibility'}
         </p>
       </div>

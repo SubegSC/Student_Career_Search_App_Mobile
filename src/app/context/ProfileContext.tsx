@@ -72,7 +72,7 @@ export interface UserProfile {
 
 interface ProfileContextType {
   profile: UserProfile | null;
-  setProfile: React.Dispatch<React.SetStateAction<UserProfile | null>>;
+  setProfile: React.Dispatch<React.SetStateAction<UserProfile>>;
 
   updateProfile: (data: Partial<UserProfile>) => void;
   getProfileCompletion: () => number;
@@ -84,7 +84,24 @@ interface ProfileContextType {
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 export function ProfileProvider({ children }: { children: ReactNode }) {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profile, setProfile] = useState<UserProfile>({
+    fullName: "",
+    email: "",
+    phone: "",
+    location: "",
+    title: "",
+    bio: "",
+
+    skills: [],
+    education: [],
+    experience: [],
+
+    projects: [],
+    certifications: [],
+    languages: [],
+    resumes: [],
+    coverLetters: [],
+  });
   const [darkMode, setDarkMode] = useState(false);
 
   // 🔹 Fetch profile from Django backend
@@ -103,13 +120,19 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const toggleDarkMode = () => {
-    setDarkMode((prev) => !prev);
+    setDarkMode(prev => {
+      const newMode = !prev;
 
-    if (!darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+      if (newMode) {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      }
+
+      return newMode;
+    });
   };
 
   const updateProfile = (data: Partial<UserProfile>) => {
