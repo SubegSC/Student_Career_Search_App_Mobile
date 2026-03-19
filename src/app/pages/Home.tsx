@@ -139,7 +139,7 @@ export function Home() {
                       ? 'bg-secondary text-secondary-foreground'
                       : saved
                       ? 'bg-primary text-primary-foreground hover:opacity-90'
-                      : 'bg-white border-2 border-primary text-primary hover:bg-primary/10'
+                      : 'bg-white border-2 border-primary text-primary dark:text-black hover:bg-primary/10'
                   } transition-colors`}
                 >
                   {applied ? 'Applied' : saved ? 'Apply' : 'Save'}
