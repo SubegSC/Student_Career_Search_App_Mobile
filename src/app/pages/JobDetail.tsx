@@ -21,7 +21,7 @@ export function JobDetail() {
           <h2 className="text-xl font-semibold mb-2">Job not found</h2>
           <button
             onClick={() => navigate('/browse')}
-            className="text-blue-600 font-medium"
+            className="text-primary font-medium"
           >
             Back to Browse
           </button>
@@ -78,7 +78,7 @@ Best regards,
               onClick={() => toggleSaveJob(job.id)}
               className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"
             >
-              <Bookmark className={`w-5 h-5 ${saved ? 'fill-blue-600 text-blue-600' : 'text-gray-600'}`} />
+              <Bookmark className={`w-5 h-5 ${saved ? 'fill-primary text-primary' : 'text-gray-600'}`} />
             </button>
           </div>
         </div>
@@ -87,8 +87,8 @@ Best regards,
         <div className="px-6 py-6">
           {/* Company and Title */}
           <div className="mb-6">
-            <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-              <span className="text-2xl font-bold text-blue-600">
+            <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
+              <span className="text-2xl font-bold text-primary">
                 {job.company.charAt(0)}
               </span>
             </div>
@@ -132,7 +132,7 @@ Best regards,
             <ul className="space-y-2">
               {job.responsibilities.map((resp, index) => (
                 <li key={index} className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
                   <span className="text-gray-600">{resp}</span>
                 </li>
               ))}
@@ -144,7 +144,7 @@ Best regards,
             <h3 className="text-lg font-semibold mb-3">Required Skills</h3>
             <div className="flex flex-wrap gap-2">
               {job.skills.map(skill => (
-                <span key={skill} className="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium">
+                <span key={skill} className="px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-sm font-medium">
                   {skill}
                 </span>
               ))}
@@ -194,7 +194,7 @@ Best regards,
         ) : (
           <button
             onClick={handleQuickApply}
-            className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-colors"
           >
             Quick Apply
           </button>
@@ -215,7 +215,7 @@ Best regards,
                 <select
                   value={resume}
                   onChange={(e) => setResume(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full px-4 py-3 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option>John_Doe_Resume_2026.pdf</option>
                   <option>John_Doe_Resume_Technical.pdf</option>
@@ -231,7 +231,7 @@ Best regards,
                   value={coverLetter}
                   onChange={(e) => setCoverLetter(e.target.value)}
                   rows={8}
-                  className="w-full px-4 py-3 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+                  className="w-full px-4 py-3 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
                   placeholder="Write your cover letter..."
                 />
                 <p className="text-xs text-gray-500 mt-1">✓ Template pre-filled for {job.company}</p>
@@ -247,7 +247,7 @@ Best regards,
                 </button>
                 <button
                   onClick={handleSubmitApplication}
-                  className="flex-1 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700"
+                  className="flex-1 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90"
                 >
                   Submit Application
                 </button>
