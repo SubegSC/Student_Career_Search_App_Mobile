@@ -73,6 +73,10 @@ export interface UserProfile {
 interface ProfileContextType {
   profile: UserProfile | null;
   setProfile: React.Dispatch<React.SetStateAction<UserProfile | null>>;
+
+  updateProfile: (data: Partial<UserProfile>) => void;
+  getProfileCompletion: () => number;
+
   darkMode: boolean;
   toggleDarkMode: () => void;
 }
@@ -108,11 +112,47 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const updateProfile = (data: Partial<UserProfile>) => {
+    setProfile(prev => {
+      if (!prev) return prev;
+
+      return {
+        ...prev,
+        ...data,
+      };
+    });
+  };
+
+  const getProfileCompletion = () => {
+    if (!profile) return 0;
+
+    let score = 0;
+
+    const basicFields = [
+      profile.fullName,
+      profile.email,
+      profile.phone,
+      profile.location,
+      profile.title,
+      profile.bio,
+    ];
+
+    score += (basicFields.filter(Boolean).length / basicFields.length) * 50;
+
+    score += profile.skills?.length ? 15 : 0;
+    score += profile.education?.length ? 15 : 0;
+    score += profile.experience?.length ? 20 : 0;
+
+    return Math.round(score);
+  };
+
   return (
     <ProfileContext.Provider
       value={{
         profile,
         setProfile,
+        updateProfile,
+        getProfileCompletion,
         darkMode,
         toggleDarkMode,
       }}
@@ -131,3 +171,4 @@ export function useProfile() {
 
   return context;
 }
+
