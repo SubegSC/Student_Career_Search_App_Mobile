@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { 
-  ArrowLeft, User, Mail, Phone, MapPin, Briefcase, 
+import {
+  ArrowLeft, User, Mail, Phone, MapPin, Briefcase,
   Github, Linkedin, Globe, Edit2, Plus, Trash2,
   GraduationCap, Award, Code, FileText, Moon, Sun
 } from 'lucide-react';
@@ -11,7 +11,7 @@ export function Profile() {
   const navigate = useNavigate();
   const { profile, getProfileCompletion, darkMode, toggleDarkMode } = useProfile();
   const [activeTab, setActiveTab] = useState<'overview' | 'resume' | 'portfolio' | 'documents'>('overview');
-  
+
   const completion = getProfileCompletion();
 
   const tabs = [
@@ -49,11 +49,10 @@ export function Profile() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as 'overview' | 'resume' | 'portfolio' | 'documents')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap ${
-                  activeTab === tab.id
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap ${activeTab === tab.id
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                  }`}
               >
                 <Icon className="w-4 h-4" />
                 {tab.label}
@@ -75,7 +74,7 @@ export function Profile() {
 
 function OverviewTab() {
   const navigate = useNavigate();
-  const { profile, getProfileCompletion } = useProfile();
+  const { profile, getProfileCompletion, updateProfile } = useProfile();
   if (!profile) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -192,15 +191,46 @@ function OverviewTab() {
         {profile.education.length > 0 ? (
           <div className="space-y-3">
             {profile.education.map(edu => (
-              <div key={edu.id}>
+              <div key={edu.id} className="flex items-start justify-between gap-3">
+
+                {/* LEFT SIDE (same as before) */}
                 <div className="flex items-start gap-3">
                   <GraduationCap className="w-5 h-5 text-gray-400 mt-1" />
                   <div>
-                    <h4 className="font-medium dark:text-white">{edu.degree} in {edu.field}</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{edu.school}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-500">{edu.startDate} - {edu.endDate}</p>
-                    {edu.gpa && <p className="text-xs text-gray-500 dark:text-gray-500">GPA: {edu.gpa}</p>}
+                    <h4 className="font-medium dark:text-white">
+                      {edu.degree} in {edu.field}
+                    </h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {edu.school}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500">
+                      {edu.startDate} - {edu.endDate}
+                    </p>
+                    {edu.gpa && (
+                      <p className="text-xs text-gray-500 dark:text-gray-500">
+                        GPA: {edu.gpa}
+                      </p>
+                    )}
                   </div>
+                </div>
+
+                {/* RIGHT SIDE (EDIT AND DELETE BUTTON) */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => navigate(`/profile/edit-education/${edu.id}`)}
+                    className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
+                  >
+                    <Edit2 className="w-4 h-4 text-gray-600" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      const updated = profile.education.filter(e => e.id !== edu.id);
+                      updateProfile({ education: updated });
+                    }}
+                    className="p-2 hover:bg-red-100 rounded-lg"
+                  >
+                    <Trash2 className="w-4 h-4 text-red-500" />
+                  </button>
                 </div>
               </div>
             ))}

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router';
 import { ArrowLeft, Save } from 'lucide-react';
 import { useProfile } from '../context/ProfileContext';
 
@@ -12,6 +12,8 @@ export function EditProfile() {
   const isResume = location.pathname.includes('create-resume');
   const isProject = location.pathname.includes('add-project');
   const isCoverLetter = location.pathname.includes('create-cover-letter');
+  const { id } = useParams();
+  const isEditEducation = location.pathname.includes("edit-education");
   const { profile, updateProfile } = useProfile();
   if (!profile) {
     return (
@@ -32,6 +34,32 @@ export function EditProfile() {
     linkedin: profile.linkedin || '',
     portfolio: profile.portfolio || '',
   });
+
+  const [education, setEducation] = useState({
+    school: '',
+    degree: '',
+    field: '',
+    startDate: '',
+    endDate: '',
+    gpa: '',
+  });
+
+  useEffect(() => {
+    if (isEditEducation && id && profile) {
+      const existing = profile.education.find(e => e.id === id);
+
+      if (existing) {
+        setEducation({
+          school: existing.school || "",
+          degree: existing.degree || "",
+          field: existing.field || "",
+          startDate: existing.startDate || "",
+          endDate: existing.endDate || "",
+          gpa: existing.gpa || ""
+        });
+      }
+    }
+  }, [id, isEditEducation, profile]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,8 +109,84 @@ export function EditProfile() {
         <form onSubmit={handleSubmit} className="space-y-6">
 
           {isEducation && (
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-              <p className="text-gray-500">Education form coming soon...</p>
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 space-y-4">
+              <h2 className="text-lg font-semibold dark:text-white">Add Education</h2>
+
+              <input
+                type="text"
+                placeholder="School"
+                value={education.school}
+                onChange={(e) => setEducation({ ...education, school: e.target.value })}
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+              />
+
+              <input
+                type="text"
+                placeholder="Degree (e.g., BSc)"
+                value={education.degree}
+                onChange={(e) => setEducation({ ...education, degree: e.target.value })}
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+              />
+
+              <input
+                type="text"
+                placeholder="Field (e.g., Computer Science)"
+                value={education.field}
+                onChange={(e) => setEducation({ ...education, field: e.target.value })}
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+              />
+
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  placeholder="Start Date"
+                  value={education.startDate}
+                  onChange={(e) => setEducation({ ...education, startDate: e.target.value })}
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                />
+
+                <input
+                  type="text"
+                  placeholder="End Date"
+                  value={education.endDate}
+                  onChange={(e) => setEducation({ ...education, endDate: e.target.value })}
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              <input
+                type="text"
+                placeholder="GPA (optional)"
+                value={education.gpa}
+                onChange={(e) => setEducation({ ...education, gpa: e.target.value })}
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+              />
+
+              <button
+                onClick={() => {
+                  if (isEditEducation) {
+                    const updated = profile.education.map(e =>
+                      e.id === id ? { ...education, id } : e
+                    );
+
+                    updateProfile({ education: updated });
+                  } else {
+                    const newEdu = {
+                      ...education,
+                      id: Date.now().toString(),
+                    };
+
+                    updateProfile({
+                      education: [...profile.education, newEdu],
+                    });
+                  }
+
+                  navigate('/profile');
+                }}
+                className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-semibold"
+              >
+                Save Education
+              </button>
             </div>
           )}
 
