@@ -24,40 +24,25 @@ export const router = createBrowserRouter([
       { path: 'job/:jobId', Component: JobDetail },
       { path: 'compare', Component: CompareJobs },
 
+      // Profile routes
       { path: 'profile', Component: Profile },
       { path: 'profile/edit', Component: EditProfile },
-      { path: '/profile/edit-education/:id', Component: EditProfile, },
-      { path: '/profile/edit-experience/:id', Component: EditProfile, },
+
+      // Education
       { path: 'profile/edit-education', Component: EditProfile },
+      { path: 'profile/edit-education/:id', Component: EditProfile },
+
+      // Experience
       { path: 'profile/edit-experience', Component: EditProfile },
+      { path: 'profile/edit-experience/:id', Component: EditProfile },
+
+      // Skills (standalone page — UI separate from Edit Profile)
       { path: 'profile/edit-skills', Component: EditProfile },
+
+      // Documents & Portfolio
       { path: 'profile/create-resume', Component: EditProfile },
       { path: 'profile/add-project', Component: EditProfile },
       { path: 'profile/create-cover-letter', Component: EditProfile },
     ],
   },
-  {
-    path: '/job/:jobId',
-    Component: JobDetail,
-  },
-  {
-    path: '/compare',
-    Component: CompareJobs,
-  },
-  {
-    path: '/profile',
-    Component: Profile,
-  },
-  {
-    path: '/profile/edit',
-    Component: EditProfile,
-  },
-  {
-    path: '/profile/edit-education/:id',
-    Component: EditProfile,
-  },
-  {
-    path: '/profile/edit-experience/:id',
-    Component: EditProfile,
-  }
 ]);

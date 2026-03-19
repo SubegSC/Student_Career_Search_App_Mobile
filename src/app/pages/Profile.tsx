@@ -9,10 +9,8 @@ import { useProfile } from '../context/ProfileContext';
 
 export function Profile() {
   const navigate = useNavigate();
-  const { profile, getProfileCompletion, darkMode, toggleDarkMode } = useProfile();
+  const { darkMode, toggleDarkMode } = useProfile();
   const [activeTab, setActiveTab] = useState<'overview' | 'resume' | 'portfolio' | 'documents'>('overview');
-
-  const completion = getProfileCompletion();
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: User },
@@ -37,22 +35,27 @@ export function Profile() {
             onClick={toggleDarkMode}
             className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700"
           >
-            {darkMode ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-gray-600" />}
+            {darkMode ? (
+              <Sun className="w-5 h-5 text-yellow-400" />
+            ) : (
+              <Moon className="w-5 h-5 text-gray-600" />
+            )}
           </button>
         </div>
 
         {/* Tabs */}
         <div className="flex gap-2 overflow-x-auto">
-          {tabs.map(tab => {
+          {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as 'overview' | 'resume' | 'portfolio' | 'documents')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap ${activeTab === tab.id
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  }`}
+                onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap ${
+                  activeTab === tab.id
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                }`}
               >
                 <Icon className="w-4 h-4" />
                 {tab.label}
@@ -72,9 +75,12 @@ export function Profile() {
   );
 }
 
+// ── Overview Tab ──────────────────────────────────────────────────────────────
+
 function OverviewTab() {
   const navigate = useNavigate();
   const { profile, getProfileCompletion, updateProfile } = useProfile();
+
   if (!profile) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -82,6 +88,7 @@ function OverviewTab() {
       </div>
     );
   }
+
   const completion = getProfileCompletion();
 
   return (
@@ -117,7 +124,9 @@ function OverviewTab() {
           />
         </div>
         <p className="text-sm text-white dark:text-gray-700">
-          {completion === 100 ? '🎉 Your profile is complete!' : 'Complete your profile to increase visibility'}
+          {completion === 100
+            ? '🎉 Your profile is complete!'
+            : 'Complete your profile to increase visibility'}
         </p>
       </div>
 
@@ -157,19 +166,34 @@ function OverviewTab() {
         <h3 className="font-semibold mb-3 dark:text-white">Professional Links</h3>
         <div className="space-y-3">
           {profile.github && (
-            <a href={`https://${profile.github}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-primary hover:underline">
+            <a
+              href={`https://${profile.github}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 text-primary hover:underline"
+            >
               <Github className="w-5 h-5" />
               <span>{profile.github}</span>
             </a>
           )}
           {profile.linkedin && (
-            <a href={`https://${profile.linkedin}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-primary hover:underline">
+            <a
+              href={`https://${profile.linkedin}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 text-primary hover:underline"
+            >
               <Linkedin className="w-5 h-5" />
               <span>{profile.linkedin}</span>
             </a>
           )}
           {profile.portfolio && (
-            <a href={`https://${profile.portfolio}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-primary hover:underline">
+            <a
+              href={`https://${profile.portfolio}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 text-primary hover:underline"
+            >
               <Globe className="w-5 h-5" />
               <span>{profile.portfolio}</span>
             </a>
@@ -190,31 +214,25 @@ function OverviewTab() {
         </div>
         {profile.education.length > 0 ? (
           <div className="space-y-3">
-            {profile.education.map(edu => (
+            {profile.education.map((edu) => (
               <div key={edu.id} className="flex items-start justify-between gap-3">
-
-                {/* LEFT SIDE (same as before) */}
+                {/* Left */}
                 <div className="flex items-start gap-3">
                   <GraduationCap className="w-5 h-5 text-gray-400 mt-1" />
                   <div>
                     <h4 className="font-medium dark:text-white">
                       {edu.degree} in {edu.field}
                     </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {edu.school}
-                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{edu.school}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-500">
                       {edu.startDate} - {edu.endDate}
                     </p>
                     {edu.gpa && (
-                      <p className="text-xs text-gray-500 dark:text-gray-500">
-                        GPA: {edu.gpa}
-                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-500">GPA: {edu.gpa}</p>
                     )}
                   </div>
                 </div>
-
-                {/* RIGHT SIDE (EDIT AND DELETE BUTTON) */}
+                {/* Right */}
                 <div className="flex gap-2">
                   <button
                     onClick={() => navigate(`/profile/edit-education/${edu.id}`)}
@@ -224,7 +242,7 @@ function OverviewTab() {
                   </button>
                   <button
                     onClick={() => {
-                      const updated = profile.education.filter(e => e.id !== edu.id);
+                      const updated = profile.education.filter((e) => e.id !== edu.id);
                       updateProfile({ education: updated });
                     }}
                     className="p-2 hover:bg-red-100 rounded-lg"
@@ -251,43 +269,28 @@ function OverviewTab() {
             Manage
           </button>
         </div>
-
         {(profile.experience?.length ?? 0) > 0 ? (
           <div className="space-y-3">
-            {profile.experience.map(exp => (
+            {profile.experience.map((exp) => (
               <div key={exp.id} className="flex items-start justify-between gap-3">
-
-                {/* LEFT */}
+                {/* Left */}
                 <div className="flex items-start gap-3">
                   <Briefcase className="w-5 h-5 text-gray-400 mt-1" />
                   <div>
-                    <h4 className="font-medium dark:text-white">
-                      {exp.position}
-                    </h4>
-
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {exp.company}
-                    </p>
-
+                    <h4 className="font-medium dark:text-white">{exp.position}</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{exp.company}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-500">
-                      {exp.startDate} - {exp.current ? "Present" : exp.endDate}
+                      {exp.startDate} - {exp.current ? 'Present' : exp.endDate}
                     </p>
-
                     {exp.location && (
-                      <p className="text-xs text-gray-500">
-                        {exp.location}
-                      </p>
+                      <p className="text-xs text-gray-500">{exp.location}</p>
                     )}
-
                     {exp.description && (
-                      <p className="text-xs text-gray-500">
-                        {exp.description}
-                      </p>
+                      <p className="text-xs text-gray-500">{exp.description}</p>
                     )}
                   </div>
                 </div>
-
-                {/* RIGHT */}
+                {/* Right */}
                 <div className="flex gap-2">
                   <button
                     onClick={() => navigate(`/profile/edit-experience/${exp.id}`)}
@@ -295,10 +298,9 @@ function OverviewTab() {
                   >
                     <Edit2 className="w-4 h-4 text-gray-600" />
                   </button>
-
                   <button
                     onClick={() => {
-                      const updated = profile.experience.filter(e => e.id !== exp.id);
+                      const updated = profile.experience.filter((e) => e.id !== exp.id);
                       updateProfile({ experience: updated });
                     }}
                     className="p-2 hover:bg-red-100 rounded-lg"
@@ -306,14 +308,11 @@ function OverviewTab() {
                     <Trash2 className="w-4 h-4 text-red-500" />
                   </button>
                 </div>
-
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            No experience added yet
-          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">No experience added yet</p>
         )}
       </div>
 
@@ -330,8 +329,11 @@ function OverviewTab() {
         </div>
         {profile.skills.length > 0 ? (
           <div className="flex flex-wrap gap-2">
-            {profile.skills.map(skill => (
-              <span key={skill} className="px-3 py-1.5 bg-primary/10 dark:bg-primary/20 text-primary rounded-lg text-sm font-medium">
+            {profile.skills.map((skill) => (
+              <span
+                key={skill}
+                className="px-3 py-1.5 bg-primary/10 dark:bg-primary/20 text-primary rounded-lg text-sm font-medium"
+              >
                 {skill}
               </span>
             ))}
@@ -344,9 +346,12 @@ function OverviewTab() {
   );
 }
 
+// ── Resume Tab ────────────────────────────────────────────────────────────────
+
 function ResumeTab() {
   const navigate = useNavigate();
   const { profile } = useProfile();
+
   if (!profile) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -370,7 +375,7 @@ function ResumeTab() {
 
       {profile.resumes.length > 0 ? (
         <div className="space-y-3">
-          {profile.resumes.map(resume => (
+          {profile.resumes.map((resume) => (
             <div
               key={resume.id}
               className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 flex items-center justify-between"
@@ -411,9 +416,12 @@ function ResumeTab() {
   );
 }
 
+// ── Portfolio Tab ─────────────────────────────────────────────────────────────
+
 function PortfolioTab() {
   const navigate = useNavigate();
   const { profile } = useProfile();
+
   if (!profile) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -437,25 +445,38 @@ function PortfolioTab() {
 
       {profile.projects.length > 0 ? (
         <div className="space-y-4">
-          {profile.projects.map(project => (
+          {profile.projects.map((project) => (
             <div key={project.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
               <h3 className="font-semibold mb-2 dark:text-white">{project.title}</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{project.description}</p>
               <div className="flex flex-wrap gap-2 mb-3">
-                {project.technologies.map(tech => (
-                  <span key={tech} className="px-2 py-1 bg-primary/10 dark:bg-primary/20 text-primary rounded text-xs font-medium">
+                {project.technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2 py-1 bg-primary/10 dark:bg-primary/20 text-primary rounded text-xs font-medium"
+                  >
                     {tech}
                   </span>
                 ))}
               </div>
               <div className="flex gap-3">
                 {project.githubUrl && (
-                  <a href={`https://${project.githubUrl}`} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">
+                  <a
+                    href={`https://${project.githubUrl}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-primary hover:underline"
+                  >
                     GitHub
                   </a>
                 )}
                 {project.liveUrl && (
-                  <a href={`https://${project.liveUrl}`} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">
+                  <a
+                    href={`https://${project.liveUrl}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-primary hover:underline"
+                  >
                     Live Demo
                   </a>
                 )}
@@ -479,9 +500,12 @@ function PortfolioTab() {
   );
 }
 
+// ── Documents Tab ─────────────────────────────────────────────────────────────
+
 function DocumentsTab() {
   const navigate = useNavigate();
   const { profile } = useProfile();
+
   if (!profile) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -506,7 +530,7 @@ function DocumentsTab() {
         </div>
         {profile.coverLetters.length > 0 ? (
           <div className="space-y-3">
-            {profile.coverLetters.map(letter => (
+            {profile.coverLetters.map((letter) => (
               <div
                 key={letter.id}
                 className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 flex items-center justify-between"
@@ -535,14 +559,15 @@ function DocumentsTab() {
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold dark:text-white">Certifications</h2>
-          <button className="text-primary text-sm font-medium">
-            Add
-          </button>
+          <button className="text-primary text-sm font-medium">Add</button>
         </div>
         {profile.certifications.length > 0 ? (
           <div className="space-y-2">
             {profile.certifications.map((cert, index) => (
-              <div key={index} className="flex items-center gap-3 bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
+              <div
+                key={index}
+                className="flex items-center gap-3 bg-gray-50 dark:bg-gray-800 rounded-xl p-3"
+              >
                 <Award className="w-5 h-5 text-primary" />
                 <span className="text-sm dark:text-white">{cert}</span>
               </div>

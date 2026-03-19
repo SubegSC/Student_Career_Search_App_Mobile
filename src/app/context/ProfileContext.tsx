@@ -194,4 +194,3 @@ export function useProfile() {
 
   return context;
 }
-
