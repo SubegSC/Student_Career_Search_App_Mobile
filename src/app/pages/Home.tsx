@@ -12,10 +12,10 @@ export function Home() {
   const appliedCount = applications.size;
 
   return (
-    <div className="flex-1 overflow-y-auto px-6 pb-6">
+    <div className="flex-1 overflow-y-auto px-6 pb-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold">Student Career Search</h1>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Student Career Search</h1>
         <div className="relative">
           <button
             onClick={() => navigate('/profile')}
@@ -31,7 +31,7 @@ export function Home() {
 
       {/* Welcome message */}
       <div className="mb-6">
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-300">
           Welcome back! Here's an overview of your career search.
         </p>
       </div>
@@ -40,15 +40,15 @@ export function Home() {
       <div className="flex items-center gap-6 mb-8">
         <div className="flex items-center gap-2">
           <span className="text-2xl font-semibold">{appliedCount}</span>
-          <span className="text-gray-600">Applied</span>
+          <span className="text-gray-600 dark:text-gray-400">Applied</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-2xl font-semibold">{interviewCount}</span>
-          <span className="text-gray-600">Interviews</span>
+          <span className="text-gray-600 dark:text-gray-400">Interviews</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-2xl font-semibold">{pendingCount}</span>
-          <span className="text-gray-600">Pending</span>
+          <span className="text-gray-600 dark:text-gray-400">Pending</span>
         </div>
       </div>
 
@@ -64,12 +64,12 @@ export function Home() {
               <div
                 key={job.id}
                 onClick={() => navigate(`/job/${job.id}`)}
-                className="bg-gray-50 rounded-2xl p-4 flex items-start justify-between cursor-pointer hover:bg-gray-100"
+                className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 flex items-start justify-between cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <div className="flex-1">
                   <h3 className="font-semibold mb-1">{job.title}</h3>
-                  <p className="text-sm text-gray-600 mb-1">{job.company}</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{job.company}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     {job.term} | {job.skills.slice(0, 3).join(', ')}
                   </p>
                 </div>
@@ -115,12 +115,12 @@ export function Home() {
               <div
                 key={job.id}
                 onClick={() => navigate(`/job/${job.id}`)}
-                className="bg-gray-50 rounded-2xl p-4 flex items-start justify-between cursor-pointer hover:bg-gray-100"
+                className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 flex items-start justify-between cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <div className="flex-1">
                   <h3 className="font-semibold mb-1">{job.title}</h3>
-                  <p className="text-sm text-gray-600 mb-1">{job.company}</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{job.company}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     {job.skills.slice(0, 3).join(', ')}
                   </p>
                 </div>
