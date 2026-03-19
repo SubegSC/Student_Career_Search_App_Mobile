@@ -76,6 +76,13 @@ export function Profile() {
 function OverviewTab() {
   const navigate = useNavigate();
   const { profile, getProfileCompletion } = useProfile();
+  if (!profile) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    );
+  }
   const completion = getProfileCompletion();
 
   return (
@@ -266,6 +273,13 @@ function OverviewTab() {
 function ResumeTab() {
   const navigate = useNavigate();
   const { profile } = useProfile();
+  if (!profile) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 pb-20">
@@ -326,6 +340,13 @@ function ResumeTab() {
 function PortfolioTab() {
   const navigate = useNavigate();
   const { profile } = useProfile();
+  if (!profile) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 pb-20">
@@ -387,6 +408,13 @@ function PortfolioTab() {
 function DocumentsTab() {
   const navigate = useNavigate();
   const { profile } = useProfile();
+  if (!profile) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 pb-20">

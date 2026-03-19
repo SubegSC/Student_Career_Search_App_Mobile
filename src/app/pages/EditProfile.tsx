@@ -6,6 +6,13 @@ import { useProfile } from '../context/ProfileContext';
 export function EditProfile() {
   const navigate = useNavigate();
   const { profile, updateProfile } = useProfile();
+  if (!profile) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    );
+  }
   
   const [formData, setFormData] = useState({
     fullName: profile.fullName,
