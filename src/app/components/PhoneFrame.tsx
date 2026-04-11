@@ -12,7 +12,7 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
       {/* Phone shell */}
       <div
         className="relative bg-black rounded-[3rem] shadow-2xl"
-        style={{ width: 430, height: 844 }}
+        style={{ width: 410, height: 844 }}
       >
         {/* Outer border highlight */}
         <div className="absolute inset-0 rounded-[3rem] ring-1 ring-white/10 pointer-events-none z-20" />
@@ -31,8 +31,8 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
 
         {/* Screen area */}
         <div
-          className="absolute inset-[3px] rounded-[2.7rem] overflow-hidden bg-white"
-          style={{ top: 1, bottom: 3, left: 3, right: 3 }}
+          className="absolute inset-[3px] rounded-[2.7rem] overflow-hidden"
+          style={{ top: 3, bottom: 3, left: 3, right: 3 }}
         >
           {/* Status bar */}
           <div className="flex items-center justify-between px-6 pt-3 pb-1 bg-white dark:bg-gray-900 text-gray-900 dark:text-white text-xs font-semibold z-10 relative">
