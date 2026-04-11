@@ -2,15 +2,18 @@ import { useParams, useNavigate } from 'react-router';
 import { ArrowLeft, MapPin, Calendar, Clock, DollarSign, Bookmark, CheckCircle } from 'lucide-react';
 import { allJobs, featuredJobs } from '../data/jobsDatabase';
 import { useApp } from '../context/AppContext';
+import { useProfile } from '../context/ProfileContext';
 import { useState } from 'react';
 
 export function JobDetail() {
   const { jobId } = useParams();
   const navigate = useNavigate();
   const { isJobSaved, toggleSaveJob, isJobApplied, applyToJob } = useApp();
+  const { profile } = useProfile();
   const [showApplicationModal, setShowApplicationModal] = useState(false);
-  const [resume, setResume] = useState('John_Doe_Resume_2026.pdf');
-  const [coverLetter, setCoverLetter] = useState('');
+  const [selectedResumeId, setSelectedResumeId] = useState('');
+  const [selectedCoverLetterId, setSelectedCoverLetterId] = useState('');
+  const [coverLetterText, setCoverLetterText] = useState('');
 
   const job = [...allJobs, ...featuredJobs].find(j => j.id === jobId);
 
@@ -37,8 +40,15 @@ export function JobDetail() {
   const daysUntilDeadline = Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
   const handleQuickApply = () => {
-    // Pre-fill cover letter template
-    setCoverLetter(`Dear Hiring Manager,
+    // Pre-select first resume and cover letter if available
+    if (profile?.resumes?.length) {
+      setSelectedResumeId(profile.resumes[0].id);
+    }
+    if (profile?.coverLetters?.length) {
+      setSelectedCoverLetterId(profile.coverLetters[0].id);
+      setCoverLetterText(profile.coverLetters[0].content);
+    } else {
+      setCoverLetterText(`Dear Hiring Manager,
 
 I am writing to express my strong interest in the ${job.title} position at ${job.company}. As a dedicated student with a passion for technology and innovation, I am excited about the opportunity to contribute to your team.
 
@@ -49,14 +59,15 @@ I am confident that my technical skills, combined with my enthusiasm and willing
 Thank you for considering my application.
 
 Best regards,
-[Your Name]`);
+${profile?.fullName || '[Your Name]'}`);
+    }
     setShowApplicationModal(true);
   };
 
   const handleSubmitApplication = () => {
-    applyToJob(job.id, resume, coverLetter);
+    const resumeName = profile?.resumes?.find(r => r.id === selectedResumeId)?.name || selectedResumeId || 'Resume';
+    applyToJob(job.id, resumeName, coverLetterText);
     setShowApplicationModal(false);
-    // Show success message
     alert(`Application successfully submitted to ${job.company}!\n\n✓ Added to Applications → Pending\n✓ Deadline reminder set\n✓ Follow-up reminder set for ${new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000).toLocaleDateString()}`);
     navigate('/applications');
   };
@@ -212,29 +223,57 @@ Best regards,
               {/* Resume */}
               <div className="mb-6">
                 <label className="block text-sm font-medium mb-2">Resume</label>
-                <select
-                  value={resume}
-                  onChange={(e) => setResume(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option>John_Doe_Resume_2026.pdf</option>
-                  <option>John_Doe_Resume_Technical.pdf</option>
-                  <option>John_Doe_Resume_General.pdf</option>
-                </select>
-                <p className="text-xs text-gray-500 mt-1">✓ Auto-filled with most recent resume</p>
+                {profile?.resumes?.length ? (
+                  <>
+                    <select
+                      value={selectedResumeId}
+                      onChange={(e) => setSelectedResumeId(e.target.value)}
+                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    >
+                      {profile.resumes.map(r => (
+                        <option key={r.id} value={r.id}>{r.name}</option>
+                      ))}
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">✓ From your profile resumes</p>
+                  </>
+                ) : (
+                  <div className="px-4 py-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg text-sm text-yellow-800 dark:text-yellow-300">
+                    No resumes saved. <button onClick={() => { setShowApplicationModal(false); navigate('/profile'); }} className="underline font-medium">Add one in your profile →</button>
+                  </div>
+                )}
               </div>
 
               {/* Cover Letter */}
               <div className="mb-6">
                 <label className="block text-sm font-medium mb-2">Cover Letter</label>
+                {profile?.coverLetters?.length ? (
+                  <div className="mb-3">
+                    <select
+                      value={selectedCoverLetterId}
+                      onChange={(e) => {
+                        const cl = profile.coverLetters.find(c => c.id === e.target.value);
+                        setSelectedCoverLetterId(e.target.value);
+                        if (cl) setCoverLetterText(cl.content);
+                      }}
+                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary mb-2"
+                    >
+                      <option value="">— Write custom —</option>
+                      {profile.coverLetters.map(c => (
+                        <option key={c.id} value={c.id}>{c.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                ) : null}
                 <textarea
-                  value={coverLetter}
-                  onChange={(e) => setCoverLetter(e.target.value)}
+                  value={coverLetterText}
+                  onChange={(e) => { setSelectedCoverLetterId(''); setCoverLetterText(e.target.value); }}
                   rows={8}
                   className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
                   placeholder="Write your cover letter..."
                 />
-                <p className="text-xs text-gray-500 mt-1">✓ Template pre-filled for {job.company}</p>
+                {!profile?.coverLetters?.length && (
+                  <p className="text-xs text-gray-500 mt-1">✓ Template pre-filled for {job.company}</p>
+                )}
               </div>
 
               {/* Actions */}
