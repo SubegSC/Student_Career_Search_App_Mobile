@@ -821,7 +821,7 @@ Instructions:
                 )}
               </div>
               <textarea
-                rows={18}
+                rows={10}
                 placeholder="Write your cover letter here, or use AI generation above to create a draft…"
                 value={letterBody}
                 onChange={e => setLetterBody(e.target.value)}
