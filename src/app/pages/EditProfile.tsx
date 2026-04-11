@@ -11,6 +11,11 @@ export function EditProfile() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+  }, []);
+
+  useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = 0;
   }, [location.pathname]);
 
@@ -349,7 +354,7 @@ Instructions:
       <div className="sticky top-0 bg-white dark:bg-gray-800 z-10 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between max-w-2xl mx-auto">
           <button
-            onClick={() => navigate('/profile')}
+            onClick={() => navigate('/profile', { state: { tab: isResume ? 'resume' : isProject ? 'portfolio' : isCoverLetter ? 'documents' : 'overview' } })}
             className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600"
           >
             <ArrowLeft className="w-5 h-5 dark:text-white" />
@@ -658,7 +663,7 @@ Instructions:
             </div>
 
             <div className="flex gap-3">
-              <button type="button" onClick={() => navigate('/profile')}
+              <button type="button" onClick={() => navigate('/profile', { state: { tab: isResume ? 'resume' : isProject ? 'portfolio' : isCoverLetter ? 'documents' : 'overview' } })}
                 className="flex-1 py-3 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-800">
                 Cancel
               </button>
@@ -743,7 +748,7 @@ Instructions:
             </div>
 
             <div className="flex gap-3">
-              <button type="button" onClick={() => navigate('/profile')}
+              <button type="button" onClick={() => navigate('/profile', { state: { tab: isResume ? 'resume' : isProject ? 'portfolio' : isCoverLetter ? 'documents' : 'overview' } })}
                 className="flex-1 py-3 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-800">
                 Cancel
               </button>
@@ -835,7 +840,7 @@ Instructions:
             </div>
 
             <div className="flex gap-3">
-              <button type="button" onClick={() => navigate('/profile')}
+              <button type="button" onClick={() => navigate('/profile', { state: { tab: isResume ? 'resume' : isProject ? 'portfolio' : isCoverLetter ? 'documents' : 'overview' } })}
                 className="flex-1 py-3 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-800">
                 Cancel
               </button>
