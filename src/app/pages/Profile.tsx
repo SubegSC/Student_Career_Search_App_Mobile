@@ -90,7 +90,7 @@ function OverviewTab() {
   const completion = getProfileCompletion();
 
   return (
-    <div className="space-y-6 pb-20">
+    <div className="space-y-6 pb-38">
 
       {/* Profile Header */}
       <div className="text-center">
@@ -309,7 +309,7 @@ function ResumeTab() {
   }
 
   return (
-    <div className="space-y-4 pb-20">
+    <div className="space-y-4 pb-38">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold dark:text-white">My Resumes</h2>
         <button
@@ -383,7 +383,7 @@ function PortfolioTab() {
   }
 
   return (
-    <div className="space-y-4 pb-20">
+    <div className="space-y-4 pb-38">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold dark:text-white">Portfolio Projects</h2>
         <button
@@ -480,7 +480,7 @@ function DocumentsTab() {
   }
 
   return (
-    <div className="space-y-6 pb-20">
+    <div className="space-y-6 pb-38">
 
       {/* Cover Letters */}
       <div>

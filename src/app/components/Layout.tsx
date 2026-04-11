@@ -12,20 +12,20 @@ export function Layout() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-0">
       <div className="w-full max-w-md bg-white rounded-[40px] shadow-2xl overflow-hidden" style={{ height: '90vh', maxHeight: '844px' }}>
         {/* Status bar */}
-        <div className="px-6 pt-4 pb-2 flex items-center justify-between">
+        {/* <div className="px-6 pt-4 pb-2 flex items-center justify-between">
           <span className="font-medium">9:41</span>
           <div className="flex items-center gap-1">
             <div className="w-4 h-3 bg-gray-300 rounded-sm"></div>
             <div className="w-4 h-3 bg-gray-300 rounded-sm"></div>
             <div className="w-6 h-3 bg-gray-800 rounded-sm"></div>
           </div>
-        </div>
+        </div> */}
 
         {/* Main content */}
-        <div className="flex flex-col h-full pb-20 overflow-y-auto">
+        <div className="flex flex-col h-full pb-38 overflow-y-auto scrollbar-hide">
           <Outlet />
         </div>
 
