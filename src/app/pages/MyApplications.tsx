@@ -1,4 +1,4 @@
-import { User, CheckCircle, Calendar, Clock, XCircle } from 'lucide-react';
+import { User, CheckCircle, Calendar, Clock, XCircle, ExternalLink } from 'lucide-react';
 import { allJobs, featuredJobs } from '../data/jobsDatabase';
 import { useApp } from '../context/AppContext';
 import { useNavigate } from 'react-router';
@@ -30,6 +30,17 @@ export function MyApplications() {
           <User className="w-6 h-6 text-primary" />
         </button>
       </div>
+
+      {/* Elevate button */}
+      <a
+        href="https://elevate.ucalgary.ca/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 w-full py-3 mb-6 bg-gradient-to-r bg-primary text-primary-foreground text-white rounded-xl font-semibold hover:opacity-90 transition-opacity"
+      >
+        <ExternalLink className="w-4 h-4" />
+        Find More Jobs on Elevate
+      </a>
 
       {/* Status badges */}
       <div className="flex items-center gap-3 mb-6 flex-wrap">
