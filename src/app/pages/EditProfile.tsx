@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router';
 import { ArrowLeft, Save, Plus, X, Trash2, Download, Sparkles, Loader2 } from 'lucide-react';
 import { useProfile } from '../context/ProfileContext';
@@ -8,6 +8,11 @@ export function EditProfile() {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+  }, [location.pathname]);
 
   const isEducation   = location.pathname.includes('edit-education');
   const isExperience  = location.pathname.includes('edit-experience');
@@ -151,7 +156,7 @@ export function EditProfile() {
   const handleProfileSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updateProfile({ ...formData });
-    navigate('/profile');
+    navigate('/profile', { state: { tab: isResume ? 'resume' : isProject ? 'portfolio' : isCoverLetter ? 'documents' : 'overview' } });
   };
 
   const handleSaveEducation = () => {
@@ -159,7 +164,7 @@ export function EditProfile() {
       ? profile.education.map(e => e.id === id ? { ...education, id } : e)
       : [...profile.education, { ...education, id: Date.now().toString() }];
     updateProfile({ education: updatedEducation });
-    navigate('/profile');
+    navigate('/profile', { state: { tab: isResume ? 'resume' : isProject ? 'portfolio' : isCoverLetter ? 'documents' : 'overview' } });
   };
 
   const handleSaveExperience = () => {
@@ -167,12 +172,12 @@ export function EditProfile() {
       ? profile.experience.map(e => e.id === id ? { ...experience, id } : e)
       : [...(profile.experience || []), { ...experience, id: Date.now().toString() }];
     updateProfile({ experience: updatedExperience });
-    navigate('/profile');
+    navigate('/profile', { state: { tab: isResume ? 'resume' : isProject ? 'portfolio' : isCoverLetter ? 'documents' : 'overview' } });
   };
 
   const handleSaveSkills = () => {
     updateProfile({ skills });
-    navigate('/profile');
+    navigate('/profile', { state: { tab: isResume ? 'resume' : isProject ? 'portfolio' : isCoverLetter ? 'documents' : 'overview' } });
   };
 
   const handleSaveResume = () => {
@@ -187,7 +192,7 @@ export function EditProfile() {
       ? profile.resumes.map(r => r.id === id ? newResume : r)
       : [...profile.resumes, newResume];
     updateProfile({ resumes: updatedResumes });
-    navigate('/profile');
+    navigate('/profile', { state: { tab: isResume ? 'resume' : isProject ? 'portfolio' : isCoverLetter ? 'documents' : 'overview' } });
   };
 
   const handlePrintResume = () => {
@@ -225,7 +230,7 @@ export function EditProfile() {
       ? profile.projects.map(p => p.id === id ? newProject : p)
       : [...profile.projects, newProject];
     updateProfile({ projects: updatedProjects });
-    navigate('/profile');
+    navigate('/profile', { state: { tab: isResume ? 'resume' : isProject ? 'portfolio' : isCoverLetter ? 'documents' : 'overview' } });
   };
 
   const handleSaveCoverLetter = () => {
@@ -240,7 +245,7 @@ export function EditProfile() {
       ? profile.coverLetters.map(c => c.id === id ? newLetter : c)
       : [...profile.coverLetters, newLetter];
     updateProfile({ coverLetters: updatedLetters });
-    navigate('/profile');
+    navigate('/profile', { state: { tab: isResume ? 'resume' : isProject ? 'portfolio' : isCoverLetter ? 'documents' : 'overview' } });
   };
 
   const handleGenerateCoverLetter = async () => {
@@ -338,7 +343,7 @@ Instructions:
 
   // ─────────────────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div ref={scrollRef} className="min-h-screen bg-gray-50 dark:bg-gray-900 overflow-y-auto h-full">
 
       {/* Header */}
       <div className="sticky top-0 bg-white dark:bg-gray-800 z-10 px-6 py-4 border-b border-gray-200 dark:border-gray-700">

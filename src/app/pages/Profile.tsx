@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import {
   ArrowLeft, User, Mail, Phone, MapPin, Briefcase,
   Github, Linkedin, Globe, Edit2, Plus, Trash2,
@@ -9,8 +9,11 @@ import { useProfile } from '../context/ProfileContext';
 
 export function Profile() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { darkMode, toggleDarkMode } = useProfile();
-  const [activeTab, setActiveTab] = useState<'overview' | 'resume' | 'portfolio' | 'documents'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'resume' | 'portfolio' | 'documents'>(
+    (location.state?.tab as 'overview' | 'resume' | 'portfolio' | 'documents') || 'overview'
+  );
 
   const tabs = [
     { id: 'overview',   label: 'Overview',   icon: User     },
@@ -470,6 +473,8 @@ function PortfolioTab() {
 function DocumentsTab() {
   const navigate = useNavigate();
   const { profile, updateProfile } = useProfile();
+  const [showCertInput, setShowCertInput] = useState(false);
+  const [certInput, setCertInput] = useState('');
 
   if (!profile) {
     return (
@@ -478,6 +483,17 @@ function DocumentsTab() {
       </div>
     );
   }
+
+  const handleAddCert = () => {
+    if (!certInput.trim()) return;
+    updateProfile({ certifications: [...profile.certifications, certInput.trim()] });
+    setCertInput('');
+    setShowCertInput(false);
+  };
+
+  const handleRemoveCert = (index: number) => {
+    updateProfile({ certifications: profile.certifications.filter((_, i) => i !== index) });
+  };
 
   return (
     <div className="space-y-6 pb-38">
@@ -546,15 +562,46 @@ function DocumentsTab() {
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold dark:text-white">Certifications</h2>
-          <button className="text-primary text-sm font-medium">Add</button>
+          <button
+            onClick={() => setShowCertInput(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90"
+          >
+            <Plus className="w-4 h-4" />
+            Add
+          </button>
         </div>
+
+        {showCertInput && (
+          <div className="flex gap-2 mb-4">
+            <input
+              autoFocus
+              type="text"
+              value={certInput}
+              onChange={e => setCertInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleAddCert()}
+              placeholder="e.g. AWS Certified Developer"
+              className="flex-1 px-4 py-2 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+            />
+            <button onClick={handleAddCert} className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium">Save</button>
+            <button onClick={() => { setShowCertInput(false); setCertInput(''); }} className="px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm">Cancel</button>
+          </div>
+        )}
+
         {profile.certifications.length > 0 ? (
           <div className="space-y-2">
             {profile.certifications.map((cert, index) => (
               <div key={index}
-                className="flex items-center gap-3 bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
-                <Award className="w-5 h-5 text-primary" />
-                <span className="text-sm dark:text-white">{cert}</span>
+                className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
+                <div className="flex items-center gap-3">
+                  <Award className="w-5 h-5 text-primary" />
+                  <span className="text-sm dark:text-white">{cert}</span>
+                </div>
+                <button
+                  onClick={() => handleRemoveCert(index)}
+                  className="p-1.5 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg"
+                >
+                  <Trash2 className="w-4 h-4 text-red-500" />
+                </button>
               </div>
             ))}
           </div>
