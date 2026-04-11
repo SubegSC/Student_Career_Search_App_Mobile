@@ -348,7 +348,7 @@ Instructions:
 
   // ─────────────────────────────────────────────────────────────────────────
   return (
-    <div ref={scrollRef} className="min-h-screen bg-gray-50 dark:bg-gray-900 overflow-y-auto h-full">
+    <div ref={scrollRef} className="min-h-screen bg-gray-50 dark:bg-gray-900">
 
       {/* Header */}
       <div className="sticky top-0 bg-white dark:bg-gray-800 z-10 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
@@ -378,7 +378,7 @@ Instructions:
 
         {/* ── Base Profile ─────────────────────────────────────────────── */}
         {isBaseProfile && (
-          <form onSubmit={handleProfileSubmit} className="space-y-6">
+          <form onSubmit={handleProfileSubmit} className="space-y-6 pb-38">
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
               <h2 className="text-lg font-semibold mb-4 dark:text-white">Basic Information</h2>
               <div className="space-y-4">
