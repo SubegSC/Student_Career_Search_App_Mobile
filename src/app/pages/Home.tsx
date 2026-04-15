@@ -16,16 +16,16 @@ export function Home() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Student Career Search</h1>
-        <div className="relative">
+        <div className="relative pt-2">
           <button
             onClick={() => navigate('/profile')}
             className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors"
           >
             <User className="w-6 h-6 text-primary" />
           </button>
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+          {/* <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
             1
-          </span>
+          </span> */}
         </div>
       </div>
 

@@ -338,7 +338,7 @@ ${profile?.fullName || '[Your Name]'}`);
 
       {/* Application Modal */}
       {showApplicationModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-900 rounded-2xl max-w-md w-full max-h-[80vh] overflow-y-auto">
             <div className="p-6">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Apply to {job.company}</h2>

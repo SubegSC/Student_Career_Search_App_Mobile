@@ -72,7 +72,7 @@ export function MyApplications() {
   return (
     <div className="flex-1 overflow-y-auto px-6 pb-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 pt-2">
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Applications</h1>
         <button
           onClick={() => navigate('/profile')}

@@ -249,9 +249,9 @@ export function Browse() {
   return (
     <div className="flex-1 overflow-y-auto px-6 pb-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 pt-2">
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Browse Jobs</h1>
-        <button
+        <button 
           onClick={() => navigate('/profile')}
           className="w-10 h-10 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors"
         >

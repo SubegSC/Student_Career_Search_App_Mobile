@@ -1,12 +1,9 @@
 // PhoneFrame.tsx
-// Wrap your app content with this to simulate a phone shell in the browser.
-// Usage in App.tsx:
-//   import { PhoneFrame } from './components/PhoneFrame';
-//   <PhoneFrame><RouterProvider router={router} /></PhoneFrame>
+// Layout component for React Router using <Outlet />
 
-import { ReactNode } from 'react';
+import { Outlet } from 'react-router';
 
-export function PhoneFrame({ children }: { children: ReactNode }) {
+export function PhoneFrame() {
   return (
     <div className="min-h-screen bg-gray-200 dark:bg-gray-700 flex items-center justify-center p-0">
       {/* Phone shell */}
@@ -57,9 +54,9 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
             </div>
           </div>
 
-          {/* App content */}
+          {/* App content (ROUTER OUTLET HERE) */}
           <div className="absolute inset-0 top-0 bottom-0 overflow-hidden flex flex-col">
-            {children}
+            <Outlet />
           </div>
         </div>
 
