@@ -18,7 +18,10 @@ export function AdvisorDetail() {
   const navigate = useNavigate();
   const { advisorId } = useParams<{ advisorId: string }>();
   const advisor = advisors.find(a => a.id === advisorId);
-  const [bookedSlot, setBookedSlot] = useState<string | null>(null);
+  const [bookedSlot, setBookedSlot] = useState<string | null>(() => {
+    return localStorage.getItem(`bookedSlot-${advisorId}`);
+  });
+
   const [confirming, setConfirming] = useState<string | null>(null);
 
   if (!advisor) {
@@ -33,6 +36,8 @@ export function AdvisorDetail() {
     if (confirming === slotKey) {
       setBookedSlot(slotKey);
       setConfirming(null);
+
+      localStorage.setItem(`bookedSlot-${advisorId}`, slotKey);
     } else {
       setConfirming(slotKey);
     }

@@ -15,7 +15,10 @@ const ALL_FILTERS = ['All', 'CAREER FAIR', 'WORKSHOP', 'INFO SESSION', 'NETWORKI
 
 export function AllEvents() {
   const navigate = useNavigate();
-  const [registeredIds, setRegisteredIds] = useState<Set<string>>(new Set());
+  const [registeredIds, setRegisteredIds] = useState<Set<string>>(() => {
+  const saved = localStorage.getItem("registeredIds");
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
   const [filter, setFilter] = useState<string>('All');
 
   const today = new Date();
@@ -29,8 +32,12 @@ export function AllEvents() {
   const toggleRegister = (id: string) => {
     setRegisteredIds(prev => {
       const next = new Set(prev);
+
       if (next.has(id)) next.delete(id);
       else next.add(id);
+
+      localStorage.setItem("registeredIds", JSON.stringify([...next]));
+
       return next;
     });
   };
