@@ -22,7 +22,7 @@ export function Alerts() {
   const alerts: Alert[] = [];
 
   // Deadline reminders for saved jobs
-  const today = new Date('2026-03-06');
+  const today = new Date();
   allJobsData
     .filter(job => savedJobs.has(job.id) && !applications.has(job.id))
     .forEach(job => {
@@ -118,15 +118,15 @@ export function Alerts() {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto px-6 pb-6">
+    <div className="flex-1 overflow-y-auto px-6 pb-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold">Alerts</h1>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Alerts</h1>
         <button
           onClick={() => navigate('/profile')}
-          className="relative w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center hover:bg-blue-200 transition-colors"
+          className="relative w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
         >
-          <Bell className="w-6 h-6 text-blue-600" />
+          <Bell className="w-6 h-6 text-blue-600 dark:text-blue-400" />
           {alerts.length > 0 && (
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
               {alerts.length}

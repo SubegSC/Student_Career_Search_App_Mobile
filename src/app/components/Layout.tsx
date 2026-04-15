@@ -12,8 +12,8 @@ export function Layout() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-0">
-      <div className="w-full max-w-md bg-white rounded-[40px] shadow-2xl overflow-hidden" style={{ height: '90vh', maxHeight: '844px' }}>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-0">
+      <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-[40px] shadow-2xl overflow-hidden" style={{ height: '90vh', maxHeight: '844px' }}>
         {/* Status bar */}
         {/* <div className="px-6 pt-4 pb-2 flex items-center justify-between">
           <span className="font-medium">9:41</span>
@@ -30,7 +30,7 @@ export function Layout() {
         </div>
 
         {/* Bottom navigation */}
-        <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-2" style={{ borderRadius: '0 0 40px 40px' }}>
+        <div className="absolute bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-6 py-2" style={{ borderRadius: '0 0 40px 40px' }}>
           <nav className="flex items-center justify-between max-w-md mx-auto">
             {navItems.map((item) => {
               const isActive = location.pathname === item.path;
@@ -45,19 +45,19 @@ export function Layout() {
                   <div className="relative">
                     <Icon
                       className={`w-6 h-6 ${
-                        isActive ? 'text-blue-600 fill-blue-600' : 'text-gray-400'
+                        isActive ? 'text-blue-600 dark:text-blue-400 fill-blue-600 dark:fill-blue-400' : 'text-gray-400 dark:text-gray-500'
                       }`}
                     />
                   </div>
                   <span
                     className={`text-xs ${
-                      isActive ? 'text-blue-600 font-medium' : 'text-gray-400'
+                      isActive ? 'text-blue-600 dark:text-blue-400 font-medium' : 'text-gray-400 dark:text-gray-500'
                     }`}
                   >
                     {item.label}
                   </span>
                   {isActive && (
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-blue-600 rounded-full"></div>
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-blue-600 dark:bg-blue-400 rounded-full"></div>
                   )}
                 </Link>
               );

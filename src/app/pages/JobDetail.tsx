@@ -117,7 +117,7 @@ export function JobDetail() {
   const saved = isJobSaved(job.id);
   const applied = isJobApplied(job.id);
   const deadline = new Date(job.deadline);
-  const today = new Date('2026-03-06');
+  const today = new Date();
   const daysUntilDeadline = Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
   const company = getCompanyInfo(job.company);
 
@@ -140,12 +140,25 @@ I am confident that my technical skills, combined with my enthusiasm and willing
 Thank you for considering my application.
 
 Best regards,
-${profile?.fullName || '[Your Name]'}`);
+${profile?.fullName || 'Your Full Name'}`);
     }
     setShowApplicationModal(true);
   };
 
   const handleSubmitApplication = () => {
+    // Validation: Check if user has a name
+    if (!profile?.fullName || profile.fullName.trim() === '') {
+      alert('Please complete your profile with your full name before submitting an application.');
+      navigate('/profile');
+      return;
+    }
+
+    // Validation: Check if cover letter contains placeholders
+    if (coverLetterText.includes('[Your Name]') || coverLetterText.includes('Your Full Name')) {
+      alert('Please replace the placeholder name in your cover letter with your actual name before submitting.');
+      return;
+    }
+
     const resumeName = profile?.resumes?.find(r => r.id === selectedResumeId)?.name || selectedResumeId || 'Resume';
     applyToJob(job.id, resumeName, coverLetterText);
     setShowApplicationModal(false);

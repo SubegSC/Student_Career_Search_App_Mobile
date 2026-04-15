@@ -97,7 +97,7 @@ export function Browse() {
     visaSponsorship: false,
   });
 
-  const today = new Date('2026-03-06');
+  const today = new Date();
 
   // Get unique values for filters
   const locationTypes = ['all', 'Remote', 'Hybrid', 'In-Person'];

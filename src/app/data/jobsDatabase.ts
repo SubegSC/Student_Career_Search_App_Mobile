@@ -82,11 +82,8 @@ function getRandomItem<T>(arr: T[]): T {
 }
 
 function generateDeadline(): string {
-  const start = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000);
-
-  const end = new Date();
-  end.setMonth(end.getMonth() + 2);
-  end.setDate(end.getDate() + 15);
+  const start = new Date('2026-05-15');
+  const end = new Date('2026-08-31');
   const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
   return date.toISOString().split('T')[0];
 }
@@ -167,7 +164,7 @@ export const featuredJobs: Job[] = [
     location: 'Remote (Canada)',
     locationType: 'Remote',
     term: 'Summer 2026',
-    deadline: '2026-03-12',
+    deadline: '2026-05-15',
     description: 'Join Shopify and help build the future of commerce. Work on scalable backend systems that power millions of merchants worldwide.',
     responsibilities: [
       'Build and maintain scalable APIs using Ruby on Rails and GraphQL',
@@ -188,7 +185,7 @@ export const featuredJobs: Job[] = [
     location: 'Mountain View, CA',
     locationType: 'In-Person',
     term: 'Summer 2026',
-    deadline: '2026-03-20',
+    deadline: '2026-06-01',
     description: 'Design beautiful and intuitive user experiences for Google products used by billions of people worldwide.',
     responsibilities: [
       'Create wireframes, prototypes, and high-fidelity mockups',
@@ -209,7 +206,7 @@ export const featuredJobs: Job[] = [
     location: 'Toronto, ON',
     locationType: 'Hybrid',
     term: 'Summer 2026',
-    deadline: '2026-03-14',
+    deadline: '2026-07-15',
     description: 'Work on innovative fintech solutions at Canada\'s largest bank. Build applications that serve millions of customers.',
     responsibilities: [
       'Develop and maintain web applications using Java and Spring Boot',
@@ -230,7 +227,7 @@ export const featuredJobs: Job[] = [
     location: 'Vancouver, BC',
     locationType: 'Hybrid',
     term: 'Summer 2026',
-    deadline: '2026-03-18',
+    deadline: '2026-08-30',
     description: 'Analyze data to drive business decisions at one of the world\'s most data-driven companies.',
     responsibilities: [
       'Extract insights from large datasets using SQL and Python',

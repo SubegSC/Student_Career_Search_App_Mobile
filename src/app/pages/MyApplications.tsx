@@ -150,7 +150,7 @@ export function MyApplications() {
           {appliedJobs.map(({ job, application }) => {
             const status = application.status as AppStatus;
             const appliedDate = new Date(application.appliedDate);
-            const daysAgo = Math.floor((new Date('2026-03-06').getTime() - appliedDate.getTime()) / (1000 * 60 * 60 * 24));
+            const daysAgo = Math.max(0, Math.floor((Date.now() - appliedDate.getTime()) / (1000 * 60 * 60 * 24)));
 
             return (
               <div
@@ -271,7 +271,7 @@ export function MyApplications() {
               <div className="space-y-3">
                 {pendingApps.map(({ job, application }) => {
                   const appliedDate = new Date(application.appliedDate);
-                  const daysAgo = Math.floor((new Date('2026-03-06').getTime() - appliedDate.getTime()) / (1000 * 60 * 60 * 24));
+                  const daysAgo = Math.max(0, Math.floor((Date.now() - appliedDate.getTime()) / (1000 * 60 * 60 * 24)));
                   return (
                     <div key={job.id} onClick={() => navigate(`/job/${job.id}`)}
                       className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 cursor-pointer hover:bg-gray-100">

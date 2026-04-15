@@ -32,17 +32,17 @@ export function CompareJobs() {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto">
+    <div className="flex-1 overflow-y-auto bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
       {/* Header */}
-      <div className="sticky top-0 bg-white z-10 px-6 py-4 border-b border-gray-200">
+      <div className="sticky top-0 bg-white dark:bg-gray-900 z-10 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate('/saved')}
-            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"
+            className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5 dark:text-white" />
           </button>
-          <h1 className="text-lg font-semibold flex-1">Compare Jobs</h1>
+          <h1 className="text-lg font-semibold flex-1 dark:text-white">Compare Jobs</h1>
         </div>
       </div>
 
@@ -50,17 +50,17 @@ export function CompareJobs() {
       <div className="px-6 py-6">
         {/* Company & Title */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-500 mb-3 uppercase">Position</h3>
+          <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase">Position</h3>
           <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${jobs.length}, 1fr)` }}>
             {jobs.map(job => (
-              <div key={job.id} className="bg-gray-50 rounded-xl p-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-3">
-                  <span className="text-xl font-bold text-primary">
+              <div key={job.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
+                <div className="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-lg flex items-center justify-center mb-3">
+                  <span className="text-xl font-bold text-primary dark:text-blue-400">
                     {job.company.charAt(0)}
                   </span>
                 </div>
-                <h4 className="font-semibold mb-1 text-sm">{job.title}</h4>
-                <p className="text-sm text-gray-600">{job.company}</p>
+                <h4 className="font-semibold mb-1 text-sm dark:text-white">{job.title}</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{job.company}</p>
               </div>
             ))}
           </div>
@@ -68,15 +68,15 @@ export function CompareJobs() {
 
         {/* Location */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-500 mb-3 uppercase flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase flex items-center gap-2">
             <MapPin className="w-4 h-4" />
             Location
           </h3>
           <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${jobs.length}, 1fr)` }}>
             {jobs.map(job => (
-              <div key={job.id} className="bg-gray-50 rounded-xl p-4">
-                <p className="font-medium text-sm mb-1">{job.location}</p>
-                <p className="text-xs text-gray-600">{job.locationType}</p>
+              <div key={job.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
+                <p className="font-medium text-sm mb-1 dark:text-white">{job.location}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">{job.locationType}</p>
               </div>
             ))}
           </div>
@@ -84,23 +84,23 @@ export function CompareJobs() {
 
         {/* Deadline */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-500 mb-3 uppercase flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase flex items-center gap-2">
             <Clock className="w-4 h-4" />
             Application Deadline
           </h3>
           <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${jobs.length}, 1fr)` }}>
             {jobs.map(job => {
               const deadline = new Date(job.deadline);
-              const today = new Date('2026-03-06');
+              const today = new Date();
               const daysUntilDeadline = Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
               return (
-                <div key={job.id} className="bg-gray-50 rounded-xl p-4">
-                  <p className={`font-medium text-sm ${daysUntilDeadline <= 7 ? 'text-red-600' : ''}`}>
+                <div key={job.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
+                  <p className={`font-medium text-sm ${daysUntilDeadline <= 7 && daysUntilDeadline > 0 ? 'text-red-600 dark:text-red-400' : 'dark:text-white'}`}>
                     {deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                   </p>
-                  <p className={`text-xs ${daysUntilDeadline <= 7 ? 'text-red-600 font-medium' : 'text-gray-600'}`}>
-                    {daysUntilDeadline} days left
-                    {daysUntilDeadline <= 7 && ' ⚠️'}
+                  <p className={`text-xs ${daysUntilDeadline <= 7 && daysUntilDeadline > 0 ? 'text-red-600 dark:text-red-400 font-medium' : 'text-gray-600 dark:text-gray-400'}`}>
+                    {daysUntilDeadline > 0 ? `${daysUntilDeadline} days left` : daysUntilDeadline === 0 ? 'Due today' : 'Expired'}
+                    {daysUntilDeadline <= 7 && daysUntilDeadline > 0 && ' ⚠️'}
                   </p>
                 </div>
               );
@@ -110,14 +110,14 @@ export function CompareJobs() {
 
         {/* Salary */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-500 mb-3 uppercase flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase flex items-center gap-2">
             <DollarSign className="w-4 h-4" />
             Compensation
           </h3>
           <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${jobs.length}, 1fr)` }}>
             {jobs.map(job => (
-              <div key={job.id} className={`rounded-xl p-4 ${job.salary ? 'bg-green-50 border border-green-100' : 'bg-gray-50'}`}>
-                <p className={`font-medium text-sm ${job.salary ? 'text-green-700' : 'text-gray-500'}`}>
+              <div key={job.id} className={`rounded-xl p-4 ${job.salary ? 'bg-green-50 dark:bg-green-900/30 border border-green-100 dark:border-green-700' : 'bg-gray-50 dark:bg-gray-800'}`}>
+                <p className={`font-medium text-sm ${job.salary ? 'text-green-700 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
                   {job.salary || 'Not disclosed'}
                 </p>
               </div>
@@ -127,18 +127,18 @@ export function CompareJobs() {
 
         {/* Required Skills */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-500 mb-3 uppercase">Required Skills</h3>
+          <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase">Required Skills</h3>
           <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${jobs.length}, 1fr)` }}>
             {jobs.map(job => (
-              <div key={job.id} className="bg-gray-50 rounded-xl p-4">
+              <div key={job.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
                 <div className="flex flex-wrap gap-1">
                   {job.skills.slice(0, 5).map(skill => (
-                    <span key={skill} className="px-2 py-1 bg-primary/10 text-primary rounded text-xs font-medium">
+                    <span key={skill} className="px-2 py-1 bg-primary/10 dark:bg-primary/20 text-primary dark:text-blue-400 rounded text-xs font-medium">
                       {skill}
                     </span>
                   ))}
                   {job.skills.length > 5 && (
-                    <span className="px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs font-medium">
+                    <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs font-medium">
                       +{job.skills.length - 5}
                     </span>
                   )}
@@ -150,11 +150,11 @@ export function CompareJobs() {
 
         {/* GPA Requirement */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-500 mb-3 uppercase">GPA Requirement</h3>
+          <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase">GPA Requirement</h3>
           <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${jobs.length}, 1fr)` }}>
             {jobs.map(job => (
-              <div key={job.id} className="bg-gray-50 rounded-xl p-4">
-                <p className="font-medium text-sm">{job.gpaRequirement || 'Not specified'}</p>
+              <div key={job.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
+                <p className="font-medium text-sm dark:text-white">{job.gpaRequirement || 'Not specified'}</p>
               </div>
             ))}
           </div>
@@ -162,13 +162,13 @@ export function CompareJobs() {
 
         {/* Application Materials */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-500 mb-3 uppercase">Application Materials</h3>
+          <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase">Application Materials</h3>
           <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${jobs.length}, 1fr)` }}>
             {jobs.map(job => (
-              <div key={job.id} className="bg-gray-50 rounded-xl p-4">
+              <div key={job.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
                 <ul className="space-y-1">
                   {job.materials.map(material => (
-                    <li key={material} className="text-sm text-gray-700">• {material}</li>
+                    <li key={material} className="text-sm text-gray-700 dark:text-gray-300">• {material}</li>
                   ))}
                 </ul>
               </div>
@@ -178,24 +178,24 @@ export function CompareJobs() {
 
         {/* ── Notes section ── */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-500 mb-3 uppercase flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase flex items-center gap-2">
             <StickyNote className="w-4 h-4" />
             My Notes
           </h3>
           <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${jobs.length}, 1fr)` }}>
             {jobs.map(job => (
-              <div key={job.id} className="bg-yellow-50 border border-yellow-100 rounded-xl p-3">
+              <div key={job.id} className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-100 dark:border-yellow-700 rounded-xl p-3">
                 <textarea
                   value={notes[job.id] || ''}
                   onChange={e => setNotes(prev => ({ ...prev, [job.id]: e.target.value }))}
                   placeholder={`Notes for ${job.company}…`}
                   rows={4}
-                  className="w-full bg-transparent text-xs text-gray-700 resize-none focus:outline-none placeholder-yellow-400"
+                  className="w-full bg-transparent text-xs text-gray-700 dark:text-gray-300 resize-none focus:outline-none placeholder-yellow-400 dark:placeholder-yellow-600"
                 />
               </div>
             ))}
           </div>
-          <p className="text-xs text-gray-400 mt-1">Notes are saved while you have this page open.</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Notes are saved while you have this page open.</p>
         </div>
 
         {/* Actions */}
@@ -216,7 +216,7 @@ export function CompareJobs() {
                 </button>
                 <button
                   onClick={() => navigate(`/job/${job.id}`)}
-                  className="w-full py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg font-medium text-sm hover:bg-gray-50"
+                  className="w-full py-2.5 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
                 >
                   View Details
                 </button>
