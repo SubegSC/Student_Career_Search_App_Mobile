@@ -99,7 +99,7 @@ export function SavedJobs() {
             const applied = isJobApplied(job.id);
             const isSelected = selectedForCompare.has(job.id);
             const deadline = new Date(job.deadline);
-            const today = new Date('2026-03-06');
+            const today = new Date();
             const daysUntilDeadline = Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
             return (

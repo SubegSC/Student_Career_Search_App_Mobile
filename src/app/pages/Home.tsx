@@ -1,5 +1,5 @@
 import { User, ChevronRight, Clock, MapPin } from 'lucide-react';
-import { featuredJobs } from '../data/jobsDatabase';
+import { allJobs, featuredJobs } from '../data/jobsDatabase';
 import { featuredAdvisor } from '../data/advisorsDatabase';
 import { getUpcomingEvents, formatEventDate, CareerEvent } from '../data/eventsDatabase';
 import { useNavigate } from 'react-router';
@@ -43,9 +43,11 @@ export function Home() {
   const interviewCount = Array.from(applications.values()).filter(a => a.status === 'interview').length;
   const appliedCount = applications.size;
 
-  // Upcoming deadlines: saved/applied jobs + featured jobs, sorted by deadline
-  const deadlineJobs = featuredJobs
-    .map(job => ({ job, days: getDaysUntilDeadline(job.deadline) }))
+  const deadlineJobs = [...featuredJobs, ...allJobs]
+    .map(job => ({
+      job,
+      days: getDaysUntilDeadline(job.deadline)
+    }))
     .filter(({ days }) => days >= 0)
     .sort((a, b) => a.days - b.days)
     .slice(0, 4);

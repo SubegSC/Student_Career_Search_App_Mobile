@@ -82,8 +82,8 @@ function getRandomItem<T>(arr: T[]): T {
 }
 
 function generateDeadline(): string {
-  const start = new Date(2026, 2, 6); // March 6, 2026
-  const end = new Date(2026, 4, 31); // May 31, 2026
+  const start = new Date(2026, 3, 6);
+  const end = new Date(2026, 5, 30);
   const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
   return date.toISOString().split('T')[0];
 }
