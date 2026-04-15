@@ -1,6 +1,7 @@
-import { User, ChevronRight, Clock, MapPin } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { User, ChevronRight, Clock, MapPin, CheckCircle2 } from 'lucide-react';
 import { allJobs, featuredJobs } from '../data/jobsDatabase';
-import { featuredAdvisor } from '../data/advisorsDatabase';
+import { advisors } from '../data/advisorsDatabase';
 import { getUpcomingEvents, formatEventDate, CareerEvent } from '../data/eventsDatabase';
 import { useNavigate } from 'react-router';
 import { useApp } from '../context/AppContext';
@@ -38,6 +39,56 @@ const STATUS_DOT: Record<string, string> = {
 export function Home() {
   const navigate = useNavigate();
   const { applications, isJobSaved, toggleSaveJob, isJobApplied } = useApp();
+  const [registeredIds, setRegisteredIds] = useState<Set<string>>(() => {
+    const saved = localStorage.getItem('registeredIds');
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
+  const [bookedAdvisors, setBookedAdvisors] = useState<string[]>([]);
+
+  // Load booked advisors from localStorage
+  useEffect(() => {
+    const booked = advisors
+      .map(advisor => `bookedSlot-${advisor.id}`)
+      .filter(key => localStorage.getItem(key) !== null);
+    setBookedAdvisors(booked.map(key => key.replace('bookedSlot-', '')));
+  }, []);
+
+  // Sync registered events and booked advisors when page becomes visible or storage changes
+  useEffect(() => {
+    const handleRefresh = () => {
+      // Refresh registered event IDs
+      const saved = localStorage.getItem('registeredIds');
+      setRegisteredIds(saved ? new Set(JSON.parse(saved)) : new Set());
+
+      // Refresh booked advisors
+      const booked = advisors
+        .map(advisor => `bookedSlot-${advisor.id}`)
+        .filter(key => localStorage.getItem(key) !== null);
+      setBookedAdvisors(booked.map(key => key.replace('bookedSlot-', '')));
+    };
+
+    // Listen for visibility changes (when user returns to tab)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        handleRefresh();
+      }
+    };
+
+    // Listen for storage changes
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'registeredIds' || (e.key && e.key.startsWith('bookedSlot-'))) {
+        handleRefresh();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   const pendingCount = Array.from(applications.values()).filter(a => a.status === 'pending').length;
   const interviewCount = Array.from(applications.values()).filter(a => a.status === 'interview').length;
@@ -53,7 +104,8 @@ export function Home() {
     .slice(0, 4);
 
   // Events
-  const upcomingEvents = getUpcomingEvents(2);
+  const upcomingEvents = getUpcomingEvents(6);
+  const registeredEvents = upcomingEvents.filter(event => registeredIds.has(event.id));
 
   return (
     <div className="flex-1 overflow-y-auto px-6 pb-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
@@ -126,72 +178,108 @@ export function Home() {
         </div>
       </div>
 
-      {/* ── YOUR ADVISOR ── */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4">Your Advisor</h2>
-        <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 flex items-center gap-4">
-          {/* Avatar */}
-          <div
-            className="w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold text-base shrink-0"
-            style={{ backgroundColor: featuredAdvisor.avatarColor }}
-          >
-            {featuredAdvisor.initials}
+      {/* ── YOUR BOOKED ADVISORS ── */}
+      {bookedAdvisors.length > 0 ? (
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold">Your Booked Advisors</h2>
+            <button
+              onClick={() => navigate('/advisors')}
+              className="flex items-center gap-1 text-primary text-sm font-medium"
+            >
+              See all
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
 
-          {/* Info */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5 mb-0.5">
-              <span className={`w-2 h-2 rounded-full ${STATUS_DOT[featuredAdvisor.availabilityStatus]}`} />
-              <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 tracking-wide">
-                {featuredAdvisor.availabilityLabel}
-              </span>
-            </div>
-            <p className="font-semibold text-sm">{featuredAdvisor.name}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{featuredAdvisor.department}</p>
+          {/* Horizontal scroll row for booked advisors */}
+          <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 no-scrollbar">
+            {advisors.filter(advisor => bookedAdvisors.includes(advisor.id)).map((advisor) => (
+              <button
+                key={advisor.id}
+                onClick={() => navigate(`/advisor/${advisor.id}`)}
+                className="shrink-0 w-48 bg-gray-50 dark:bg-gray-800 rounded-2xl p-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm shrink-0"
+                    style={{ backgroundColor: advisor.avatarColor }}
+                  >
+                    {advisor.initials}
+                  </div>
+                  <span className="flex items-center gap-1 text-xs font-medium text-green-600 dark:text-green-400">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    Booked
+                  </span>
+                </div>
+                <p className="text-sm font-semibold leading-snug mb-1 line-clamp-1">{advisor.name}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1 mb-2">{advisor.role}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">{advisor.specializations.slice(0, 2).join(', ')}</p>
+              </button>
+            ))}
           </div>
-
-          {/* Book button */}
+        </div>
+      ) : (
+        <div className="mb-8 text-center py-8 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">No advisors booked yet</p>
           <button
-            onClick={() => navigate(`/advisor/${featuredAdvisor.id}`)}
-            className="shrink-0 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium text-sm hover:opacity-90 transition-opacity"
+            onClick={() => navigate('/advisors')}
+            className="text-primary text-sm font-medium"
           >
-            Book
+            Browse advisors and book a session
           </button>
         </div>
-      </div>
+      )}
 
-      {/* ── EVENTS & WORKSHOPS ── */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Events & Workshops</h2>
+      {/* ── YOUR REGISTERED WORKSHOPS ── */}
+      {registeredEvents.length > 0 ? (
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold">Your Registered Workshops</h2>
+            <button
+              onClick={() => navigate('/events')}
+              className="flex items-center gap-1 text-primary text-sm font-medium"
+            >
+              See all
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Horizontal scroll row for registered events */}
+          <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 no-scrollbar">
+            {registeredEvents.map(event => (
+              <button
+                key={event.id}
+                onClick={() => navigate('/events')}
+                className="shrink-0 w-44 bg-gray-50 dark:bg-gray-800 rounded-2xl p-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              >
+                <div className="flex items-center justify-between mb-1 gap-2">
+                  <p className={`text-xs font-semibold tracking-wide ${EVENT_TYPE_COLORS[event.type]}`}>
+                    {event.type}
+                  </p>
+                  <span className="flex items-center gap-0.5 text-xs font-medium text-green-600 dark:text-green-400 shrink-0">
+                    <CheckCircle2 className="w-3 h-3" />
+                  </span>
+                </div>
+                <p className="text-sm font-semibold leading-snug mb-2 line-clamp-2">{event.title}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  {formatEventDate(event.date)} · {event.time.split('–')[0].trim()}
+                </p>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="mb-8 text-center py-8 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">No workshops registered yet</p>
           <button
             onClick={() => navigate('/events')}
-            className="flex items-center gap-1 text-primary text-sm font-medium"
+            className="text-primary text-sm font-medium"
           >
-            See all
-            <ChevronRight className="w-4 h-4" />
+            Browse workshops and register
           </button>
         </div>
-
-        {/* Horizontal scroll row matching the mockup */}
-        <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 no-scrollbar">
-          {upcomingEvents.map(event => (
-            <button
-              key={event.id}
-              onClick={() => navigate('/events')}
-              className="shrink-0 w-44 bg-gray-50 dark:bg-gray-800 rounded-2xl p-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            >
-              <p className={`text-xs font-semibold tracking-wide mb-1 ${EVENT_TYPE_COLORS[event.type]}`}>
-                {event.type}
-              </p>
-              <p className="text-sm font-semibold leading-snug mb-2 line-clamp-2">{event.title}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                {formatEventDate(event.date)} · {event.time.split('–')[0].trim()}
-              </p>
-            </button>
-          ))}
-        </div>
-      </div>
+      )}
 
       {/* ── QUICK APPLY OPPORTUNITIES ── */}
       <div className="mb-8">
