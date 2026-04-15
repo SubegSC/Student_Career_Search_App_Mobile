@@ -3,7 +3,8 @@ import { useNavigate, useLocation } from 'react-router';
 import {
   ArrowLeft, User, Mail, Phone, MapPin, Briefcase,
   Github, Linkedin, Globe, Edit2, Plus, Trash2,
-  GraduationCap, Award, Code, FileText, Moon, Sun, ExternalLink
+  GraduationCap, Award, Code, FileText, Moon, Sun, ExternalLink,
+  CheckCircle2, Circle, AlertCircle
 } from 'lucide-react';
 import { useProfile } from '../context/ProfileContext';
 
@@ -66,7 +67,7 @@ export function Profile() {
         </div>
       </div>
 
-      <div className="px-6 py-6">
+      <div className="px-6 py-6 overflow-y-auto flex-1">
         {activeTab === 'overview'  && <OverviewTab  />}
         {activeTab === 'resume'    && <ResumeTab    />}
         {activeTab === 'portfolio' && <PortfolioTab />}
@@ -92,6 +93,48 @@ function OverviewTab() {
 
   const completion = getProfileCompletion();
 
+  // Define completion sections with status
+  const completionSections = [
+    {
+      label: 'Basic Info',
+      description: 'Name, email, phone, location, title',
+      done: !!(profile.fullName && profile.email && profile.phone && profile.location && profile.title),
+      action: () => navigate('/profile/edit'),
+      points: 30,
+    },
+    {
+      label: 'Bio / Summary',
+      description: 'A short professional summary',
+      done: !!profile.bio,
+      action: () => navigate('/profile/edit'),
+      points: 20,
+    },
+    {
+      label: 'Skills',
+      description: 'At least 3 skills listed',
+      done: (profile.skills?.length ?? 0) >= 3,
+      action: () => navigate('/profile/edit-skills'),
+      points: 15,
+    },
+    {
+      label: 'Education',
+      description: 'At least one education entry',
+      done: (profile.education?.length ?? 0) > 0,
+      action: () => navigate('/profile/edit-education'),
+      points: 15,
+    },
+    {
+      label: 'Experience',
+      description: 'At least one work experience',
+      done: (profile.experience?.length ?? 0) > 0,
+      action: () => navigate('/profile/edit-experience'),
+      points: 20,
+    },
+  ];
+
+  const incompleteSections = completionSections.filter(s => !s.done);
+  const stepsRemaining = incompleteSections.length;
+
   return (
     <div className="space-y-6 pb-38">
 
@@ -99,10 +142,10 @@ function OverviewTab() {
       <div className="text-center">
         <div className="w-24 h-24 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
           <span className="text-3xl font-bold text-primary">
-            {profile.fullName.charAt(0)}
+            {profile.fullName ? profile.fullName.charAt(0).toUpperCase() : '?'}
           </span>
         </div>
-        <h2 className="text-2xl font-semibold mb-1 dark:text-white">{profile.fullName}</h2>
+        <h2 className="text-2xl font-semibold mb-1 dark:text-white">{profile.fullName || 'Your Name'}</h2>
         <p className="text-gray-600 dark:text-gray-400 mb-2">{profile.title || 'Add your title'}</p>
         <button
           onClick={() => navigate('/profile/edit')}
@@ -113,21 +156,71 @@ function OverviewTab() {
         </button>
       </div>
 
-      {/* Profile Completion */}
-      <div className="bg-gradient-to-r from-primary to-purple-50 dark:from-primary dark:to-purple-900/20 rounded-xl p-4">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="font-semibold text-white dark:text-gray-700">Profile Completion</h3>
-          <span className="text-2xl font-bold text-primary dark:text-primary">{completion}%</span>
+      {/* Profile Completion — enhanced */}
+      <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <h3 className="font-semibold dark:text-white">Profile Completion</h3>
+            {stepsRemaining > 0 && (
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                {stepsRemaining} section{stepsRemaining > 1 ? 's' : ''} remaining
+              </p>
+            )}
+          </div>
+          <span className={`text-2xl font-bold ${completion === 100 ? 'text-green-600' : 'text-primary'}`}>
+            {completion}%
+          </span>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-3">
+
+        {/* Progress bar */}
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mb-4">
           <div
-            className="bg-gradient-to-r bg-primary/10 to-purple-600 h-2 rounded-full transition-all"
+            className={`h-2.5 rounded-full transition-all duration-500 ${
+              completion === 100 ? 'bg-green-500' : 'bg-primary'
+            }`}
             style={{ width: `${completion}%` }}
           />
         </div>
-        <p className="text-sm text-white dark:text-gray-700">
-          {completion === 100 ? '🎉 Your profile is complete!' : 'Complete your profile to increase visibility'}
-        </p>
+
+        {/* Section checklist */}
+        <div className="space-y-2">
+          {completionSections.map((section) => (
+            <button
+              key={section.label}
+              onClick={section.done ? undefined : section.action}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
+                section.done
+                  ? 'bg-green-50 dark:bg-green-900/20'
+                  : 'bg-white dark:bg-gray-700 hover:bg-primary/5 dark:hover:bg-gray-600 cursor-pointer border border-dashed border-gray-200 dark:border-gray-600'
+              }`}
+            >
+              {section.done
+                ? <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0" />
+                : <Circle className="w-4 h-4 text-gray-300 dark:text-gray-500 flex-shrink-0" />
+              }
+              <div className="flex-1 min-w-0">
+                <p className={`text-sm font-medium ${section.done ? 'text-green-800 dark:text-green-300' : 'text-gray-700 dark:text-gray-200'}`}>
+                  {section.label}
+                </p>
+                {!section.done && (
+                  <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{section.description}</p>
+                )}
+              </div>
+              <span className={`text-xs font-medium flex-shrink-0 ${section.done ? 'text-green-600' : 'text-gray-400'}`}>
+                +{section.points}%
+              </span>
+              {!section.done && (
+                <AlertCircle className="w-3.5 h-3.5 text-orange-400 flex-shrink-0" />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {completion === 100 && (
+          <p className="text-sm text-green-700 dark:text-green-400 text-center mt-3 font-medium">
+            🎉 Your profile is complete!
+          </p>
+        )}
       </div>
 
       {/* Contact Information */}
@@ -136,7 +229,7 @@ function OverviewTab() {
         <div className="space-y-3">
           <div className="flex items-center gap-3">
             <Mail className="w-5 h-5 text-gray-400" />
-            <span className="text-gray-700 dark:text-gray-300">{profile.email}</span>
+            <span className="text-gray-700 dark:text-gray-300">{profile.email || 'No email added'}</span>
           </div>
           {profile.phone && (
             <div className="flex items-center gap-3">
@@ -165,26 +258,29 @@ function OverviewTab() {
       <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
         <h3 className="font-semibold mb-3 dark:text-white">Professional Links</h3>
         <div className="space-y-3">
-          {profile.github && (
+          {profile.github ? (
             <a href={`https://${profile.github}`} target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-3 text-primary hover:underline">
               <Github className="w-5 h-5" />
               <span>{profile.github}</span>
             </a>
-          )}
-          {profile.linkedin && (
+          ) : null}
+          {profile.linkedin ? (
             <a href={`https://${profile.linkedin}`} target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-3 text-primary hover:underline">
               <Linkedin className="w-5 h-5" />
               <span>{profile.linkedin}</span>
             </a>
-          )}
-          {profile.portfolio && (
+          ) : null}
+          {profile.portfolio ? (
             <a href={`https://${profile.portfolio}`} target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-3 text-primary hover:underline">
               <Globe className="w-5 h-5" />
               <span>{profile.portfolio}</span>
             </a>
+          ) : null}
+          {!profile.github && !profile.linkedin && !profile.portfolio && (
+            <p className="text-sm text-gray-400 dark:text-gray-500">No links added yet</p>
           )}
         </div>
       </div>
@@ -225,7 +321,13 @@ function OverviewTab() {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-gray-500 dark:text-gray-400">No education added yet</p>
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-gray-500 dark:text-gray-400">No education added yet</p>
+            <button onClick={() => navigate('/profile/edit-education')}
+              className="text-xs text-primary font-medium flex items-center gap-1">
+              <Plus className="w-3 h-3" /> Add
+            </button>
+          </div>
         )}
       </div>
 
@@ -268,7 +370,13 @@ function OverviewTab() {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-gray-500 dark:text-gray-400">No experience added yet</p>
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-gray-500 dark:text-gray-400">No experience added yet</p>
+            <button onClick={() => navigate('/profile/edit-experience')}
+              className="text-xs text-primary font-medium flex items-center gap-1">
+              <Plus className="w-3 h-3" /> Add
+            </button>
+          </div>
         )}
       </div>
 
@@ -290,7 +398,13 @@ function OverviewTab() {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-gray-500 dark:text-gray-400">No skills added yet</p>
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-gray-500 dark:text-gray-400">No skills added yet</p>
+            <button onClick={() => navigate('/profile/edit-skills')}
+              className="text-xs text-primary font-medium flex items-center gap-1">
+              <Plus className="w-3 h-3" /> Add
+            </button>
+          </div>
         )}
       </div>
     </div>

@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { ArrowLeft, MapPin, Calendar, Clock, DollarSign } from 'lucide-react';
+import { ArrowLeft, MapPin, Calendar, Clock, DollarSign, StickyNote } from 'lucide-react';
 import { allJobs, featuredJobs } from '../data/jobsDatabase';
 import { useApp } from '../context/AppContext';
 
@@ -12,15 +13,17 @@ export function CompareJobs() {
   const allJobsData = [...allJobs, ...featuredJobs];
   const jobs = jobIds.map(id => allJobsData.find(j => j.id === id)!).filter(Boolean);
 
+  // Per-job notes state
+  const [notes, setNotes] = useState<Record<string, string>>(
+    Object.fromEntries(jobIds.map(id => [id, '']))
+  );
+
   if (jobs.length < 2) {
     return (
       <div className="flex-1 flex items-center justify-center px-6">
         <div className="text-center">
           <h2 className="text-xl font-semibold mb-2">Select jobs to compare</h2>
-          <button
-            onClick={() => navigate('/saved')}
-            className="text-primary font-medium"
-          >
+          <button onClick={() => navigate('/saved')} className="text-primary font-medium">
             Back to Saved Jobs
           </button>
         </div>
@@ -90,7 +93,6 @@ export function CompareJobs() {
               const deadline = new Date(job.deadline);
               const today = new Date('2026-03-06');
               const daysUntilDeadline = Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-              
               return (
                 <div key={job.id} className="bg-gray-50 rounded-xl p-4">
                   <p className={`font-medium text-sm ${daysUntilDeadline <= 7 ? 'text-red-600' : ''}`}>
@@ -114,8 +116,10 @@ export function CompareJobs() {
           </h3>
           <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${jobs.length}, 1fr)` }}>
             {jobs.map(job => (
-              <div key={job.id} className="bg-gray-50 rounded-xl p-4">
-                <p className="font-medium text-sm">{job.salary || 'Not disclosed'}</p>
+              <div key={job.id} className={`rounded-xl p-4 ${job.salary ? 'bg-green-50 border border-green-100' : 'bg-gray-50'}`}>
+                <p className={`font-medium text-sm ${job.salary ? 'text-green-700' : 'text-gray-500'}`}>
+                  {job.salary || 'Not disclosed'}
+                </p>
               </div>
             ))}
           </div>
@@ -172,12 +176,32 @@ export function CompareJobs() {
           </div>
         </div>
 
+        {/* ── Notes section ── */}
+        <div className="mb-6">
+          <h3 className="text-sm font-semibold text-gray-500 mb-3 uppercase flex items-center gap-2">
+            <StickyNote className="w-4 h-4" />
+            My Notes
+          </h3>
+          <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${jobs.length}, 1fr)` }}>
+            {jobs.map(job => (
+              <div key={job.id} className="bg-yellow-50 border border-yellow-100 rounded-xl p-3">
+                <textarea
+                  value={notes[job.id] || ''}
+                  onChange={e => setNotes(prev => ({ ...prev, [job.id]: e.target.value }))}
+                  placeholder={`Notes for ${job.company}…`}
+                  rows={4}
+                  className="w-full bg-transparent text-xs text-gray-700 resize-none focus:outline-none placeholder-yellow-400"
+                />
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-gray-400 mt-1">Notes are saved while you have this page open.</p>
+        </div>
+
         {/* Actions */}
         <div className="grid gap-3 mb-20" style={{ gridTemplateColumns: `repeat(${jobs.length}, 1fr)` }}>
           {jobs.map(job => {
-            const saved = isJobSaved(job.id);
             const applied = isJobApplied(job.id);
-            
             return (
               <div key={job.id} className="space-y-2">
                 <button

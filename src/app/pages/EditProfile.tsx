@@ -564,7 +564,7 @@ Instructions:
 
         {/* ── Resume ───────────────────────────────────────────────────── */}
         {isResume && (
-          <div className="space-y-6">
+          <div className="space-y-6 pb-36">
 
             {/* Title */}
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 space-y-4">
