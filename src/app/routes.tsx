@@ -12,6 +12,8 @@ import { JobDetail } from './pages/JobDetail';
 import { CompareJobs } from './pages/CompareJobs';
 import { Profile } from './pages/Profile';
 import { EditProfile } from './pages/EditProfile';
+import { AllEvents } from './pages/AllEvents';
+import { AdvisorDetail } from './pages/AdvisorDetail';
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +54,9 @@ export const router = createBrowserRouter([
 
           { path: 'profile/create-cover-letter', Component: EditProfile },
           { path: 'profile/cover-letter/:id', Component: EditProfile },
+
+          { path: 'events', Component: AllEvents },
+          { path: 'advisor/:advisorId', Component: AdvisorDetail },
         ],
       },
     ],
