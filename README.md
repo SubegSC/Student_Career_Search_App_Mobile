@@ -1,7 +1,7 @@
 
   # Student Career App
 
-  This is a code bundle for Student Career App. The original project is available at https://riff-theme-81329472.figma.site.
+  This is a code bundle for the Final High-fidelity Student Career App. This is based on the older Medium-fidelity prototype, which is available at https://riff-theme-81329472.figma.site.
 
   ## Running the code
 
